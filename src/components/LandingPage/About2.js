@@ -8,10 +8,9 @@ import "../../App.css";
 
 const About2 = () => {
   return (
-    <div className="mainPage">
-      <div className="container">
+    <div className="mainPage">    
         {/* About Sec */}
-        <div style={{alignItems:'center', justifyContent:'center', display:'flex'}}>
+        <div className="container About2">
           <div className="m-10">
             <h1 className="h1head">Lanzamiento con los mejores</h1>
             <p className="para pt-4 pb-4">
@@ -20,11 +19,10 @@ const About2 = () => {
               behind)
             </p>
           </div>
-          <div className="m-5">
-            <img className="d-block w-70 " src={Image1} alt="Image1" />
+          <div className="m-5 ">
+            <img className="d-block w-70" src={Image1} alt="Image1" />
           </div>
         </div>
-      </div>
     </div>
   );
 };
