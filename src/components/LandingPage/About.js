@@ -14,9 +14,8 @@ const About = () => {
     window.scroll(0, 0);
   }, []);
   return (
-    <div className="mainPage">
-      <Navbar />  
-      <div className="container pt-5">
+    <div className="mainPage"> 
+      <div className="container">
         <div className="d-flex flex-wrap align-items-center justify-content-center">
           <div className="m-5 textView pt-3">
             <h1 className="h2head">Estadísticas de consumo</h1>
@@ -65,7 +64,7 @@ const About = () => {
         </div>
       </div>
       <br /><br /><br /><br />
-      <About2 />
+      
     </div>
   );
 };

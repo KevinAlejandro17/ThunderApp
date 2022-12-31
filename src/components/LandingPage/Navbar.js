@@ -11,11 +11,12 @@ import {
   MDBCollapse,
   MDBIcon,
 } from "mdb-react-ui-kit";
+
 import { NavLink } from "react-router-dom";
 
 import HomeIcon from "@mui/icons-material/Home";
 
-export default function App() {
+function Navbar() {
   const [showNav, setShowNav] = useState(false);
   const toggleHome = () => {
     scroll.scrollToTop();
@@ -30,26 +31,14 @@ export default function App() {
           {/* Scroll yo top */}
           <NavLink href="/" onClick={toggleHome}>
             <img
-              className="d-block w-120"
+              className="d-block"
               src={Img1}
               width="80"
               height="80"
               alt="LOGO MAIN"
             />
           </NavLink>
-          <MDBNavbarToggler
-            type="button"
-            color="#000"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            onClick={() => {
-              setShowNav(!showNav);
-            }}
-            // Responsiveness of Nav
-          >
-            <MDBIcon icon="bars" fas />
-          </MDBNavbarToggler>
-          <MDBCollapse navbar show={showNav}>
+  
             <MDBNavbarNav className="d-flex justify-content-end">
               <MDBNavbarItem className="p-3">
                 {/* Other Navbar Items */}
@@ -80,9 +69,10 @@ export default function App() {
                 </NavLink>
               </MDBNavbarItem>
             </MDBNavbarNav>
-          </MDBCollapse>
         </MDBContainer>
       </MDBNavbar>
     </div>
   );
 }
+
+export default Navbar;

@@ -2,12 +2,14 @@
 import React from "react";
 import Image1 from "./Images/home3.jpg";
 import About from "./About";
+import About2 from "./About2";
 import Login from "../Adminlogin/AdminLogin";
 import { useEffect } from "react";
-import Navbar from "./Navbar.js";
 import Footer from "./Footer";
 import "../../App.css";
 import Contact from "./Contact";
+
+import Navbar2 from "./Navbar2";
 
 import { useNavigate } from "react-router-dom";
 
@@ -20,12 +22,10 @@ const Home = () => {
 
   return (
     <div className="bodyMain">
-      <Navbar />
+      <Navbar2/>
       <div className="backPath">
-        <br />
-        <br />
         <div className="mainPage">
-          <div className="container pt-5">
+          <div className="container">
             <div className="d-flex flex-wrap align-items-center justify-content-center head-flex">
               <div className="m-5">
                 {/* Heading */}
@@ -42,7 +42,7 @@ const Home = () => {
                   Thunder App
                 </h1>
                 <h6
-                  className="card-subtitle mb-4 "
+                  className="card-subtitle mb-2 "
                   style={{
                     fontSize: 20,
                     color: "#33b4db",
@@ -80,15 +80,12 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="pt-5 mt-5">
-          <br />
-          <br />
-
+        <div>
           {/* Other Components to HOME */}
           <About />
+          <About2 />
           <Contact />
         </div>
-
         <Footer />
       </div>
     </div>

@@ -21,7 +21,6 @@ import Gerente from "./components/Gerente/Gerente";
 
 function App() {
   return ( 
-  
   <Router>
     <Routes>
       <Route path="/Login" element={<Login/>} />
@@ -38,7 +37,6 @@ function App() {
       <Route path="/Operador" element={<Operador />} />
       <Route path="/OpRegister" element={<OpRegister />} />
     
-  
     </Routes>
   </Router>
   );
