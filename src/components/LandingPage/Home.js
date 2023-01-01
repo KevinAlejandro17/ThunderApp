@@ -82,7 +82,7 @@ const Home = () => {
         <div>
           {/* Other Components to HOME */}
           <About />
-          <About2 />
+         
           <Contact />
         </div>
         <Footer />
