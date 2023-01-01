@@ -19,9 +19,7 @@ const About2 = () => {
               behind)
             </p>
           </div>
-          <div className="m-5 ">
-            <img className="d-block w-70" src={Image1} alt="Image1" />
-          </div>
+       
         </div>
     </div>
   );
