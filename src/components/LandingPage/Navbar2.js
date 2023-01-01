@@ -1,18 +1,24 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Button,
+  IconButton,
+  Grid,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
 import logo from "./Images/logo3.png";
-import { Grid } from "@mui/material";
-import About from "./About";
-import HomeIcon  from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function Navbar() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -25,31 +31,44 @@ function Navbar() {
           >
             <img width="80" height="80" src={logo} alt="logo" />
           </IconButton>
-
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              justifyContent: "flex-end",
-              paddingRight: 2,
-              alignItems: "center",
-            }}
-          >
-            <Grid item>
-              <Button color="inherit">About</Button>
+          {isMobile ? (
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                justifyContent: "flex-end",
+                paddingRight: 2,
+                alignItems: "center",
+              }}
+            >
+              <MenuIcon />
             </Grid>
-            <Grid item>
-              <Button color="inherit">Contact us</Button>
+          ) : (
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                justifyContent: "flex-end",
+                paddingRight: 2,
+                alignItems: "center",
+              }}
+            >
+              <Grid item>
+                <Button color="inherit">About</Button>
+              </Grid>
+              <Grid item>
+                <Button color="inherit">Contact us</Button>
+              </Grid>
+              <Grid item>
+                <Button color="inherit">Login</Button>
+              </Grid>
+              <Grid item>
+                <IconButton sx={{ color: "white" }}>
+                  <HomeIcon />
+                </IconButton>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button color="inherit">Login</Button>
-            </Grid>
-            <Grid item>
-              <IconButton sx={{ color: "white" }}>
-                <HomeIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

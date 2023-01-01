@@ -3,7 +3,6 @@ import React from "react";
 import Image1 from "./Images/home3.jpg";
 import About from "./About";
 import About2 from "./About2";
-import Login from "../Adminlogin/AdminLogin";
 import { useEffect } from "react";
 import Footer from "./Footer";
 import "../../App.css";
