@@ -34,9 +34,8 @@ const Home = () => {
                     fontSize: 50,
                     fontWeight: 800,
                     color: "#1a5c83",
-
                     textAlign: "left",
-                    fontFamily: "serif",
+                    font: "montserrat"
                   }}
                 >
                   Thunder App
