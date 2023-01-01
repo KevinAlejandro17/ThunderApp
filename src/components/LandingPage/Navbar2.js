@@ -9,15 +9,39 @@ import {
   Grid,
   useMediaQuery,
   useTheme,
+  Menu,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 
+import { useState } from "react";
+
 import logo from "./Images/logo3.png";
+
+import MenuItem from "@mui/material/MenuItem";
+
+import { useNavigate } from "react-router-dom";
+
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
+import InfoIcon from "@mui/icons-material/Info";
+import EmailIcon from "@mui/icons-material/Email";
+import LoginIcon from "@mui/icons-material/Login";
 
 function Navbar() {
+  const navigate = useNavigate();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [anchor, setAnchor] = useState(null);
+  const open = Boolean(anchor);
+  const handleClick = (event) => {
+    setAnchor(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchor(null);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -41,7 +65,53 @@ function Navbar() {
                 alignItems: "center",
               }}
             >
-              <MenuIcon />
+              <Button
+                sx={{ color: "white" }}
+                id="resources-button"
+                onClick={handleClick}
+                aria-controls={open ? "resources-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+              >
+                <MenuIcon />
+              </Button>
+
+              <Menu
+                id="resources-menu"
+                anchorEl={anchor}
+                open={open}
+                MenuListProps={{ "aria-labelledby": "resources-button" }}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+              >
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <HomeIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Home</ListItemText>
+                </MenuItem>
+
+                <MenuItem onClick={() => navigate("/About")}>
+                  <ListItemIcon>
+                    <InfoIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>About</ListItemText>
+                </MenuItem>
+
+                <MenuItem onClick={() => navigate("/Contact")}>
+                  <ListItemIcon>
+                    <EmailIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Contact us</ListItemText>
+                </MenuItem>
+
+                <MenuItem onClick={() => navigate("/Login")}>
+                  <ListItemIcon>
+                    <LoginIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Login</ListItemText>
+                </MenuItem>
+              </Menu>
             </Grid>
           ) : (
             <Grid

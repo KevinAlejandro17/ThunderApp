@@ -20,8 +20,8 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bodyMain">
-      <Navbar2/>
+    <div>
+      <Navbar2 />
       <div className="backPath">
         <div className="mainPage">
           <div className="container">
@@ -34,7 +34,7 @@ const Home = () => {
                     fontWeight: 800,
                     color: "#1a5c83",
                     textAlign: "left",
-                    font: "montserrat"
+                    font: "montserrat",
                   }}
                 >
                   Thunder App
@@ -78,14 +78,18 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div>
-          {/* Other Components to HOME */}
-          <About />
+      </div>
+
+      <div>
+        <About/>
+      </div>
+      {/* Other Components to HOME */}
+      {/*<About />
          
           <Contact />
         </div>
         <Footer />
-      </div>
+                </div>*/}
     </div>
   );
 };

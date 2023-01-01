@@ -1,6 +1,6 @@
 import React from "react";
 import "./AdminLogin.css";
-import Navbar from "../LandingPage/Navbar.js";
+import Navbar from "../LandingPage/Navbar2.js";
 import {
   MDBBtn,
   MDBContainer,
