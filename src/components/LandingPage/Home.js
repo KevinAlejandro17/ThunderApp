@@ -11,6 +11,7 @@ import Contact from "./Contact";
 import Navbar2 from "./Navbar2";
 
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Grid } from "@mui/material";
 
 const Home = () => {
   useEffect(() => {
@@ -22,6 +23,59 @@ const Home = () => {
   return (
     <div>
       <Navbar2 />
+      <Box container sx={{ mt: 5 }}>
+        <Grid
+          container
+          spacing={10}
+          sx={{ justifyContent: "center", alignItems: "center" }}
+        >
+          <Grid item>
+            <h1
+              style={{
+                fontSize: 50,
+                fontWeight: 800,
+                color: "#1a5c83",
+                textAlign: "left",
+                font: "montserrat",
+              }}
+            >
+              Thunder App
+            </h1>
+
+            <h6
+              className="card-subtitle mb-2 "
+              style={{
+                fontSize: 20,
+                color: "#33b4db",
+                textAlign: "left",
+              }}
+            >
+              Statistics of your customers
+            </h6>
+            <Grid item sx={{ mt: 2, mb: 2 }}>
+              <p className="para">
+                Una aplicación para generar facturas automáticas del consumo de
+                sus clientes
+              </p>
+            </Grid>
+
+            <Grid container spacing={2} mt={4}>
+              <Grid item>
+                <Button variant="contained"> Start free trial </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="filled"> Learn More </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          {/* ======================= IMAGE ======================= */}
+
+          <Grid item>
+            <img src={Image1} alt="Image1" />
+          </Grid>
+        </Grid>
+      </Box>
       <div className="backPath">
         <div className="mainPage">
           <div className="container">
@@ -81,7 +135,7 @@ const Home = () => {
       </div>
 
       <div>
-        <About/>
+        <About />
       </div>
       {/* Other Components to HOME */}
       {/*<About />
