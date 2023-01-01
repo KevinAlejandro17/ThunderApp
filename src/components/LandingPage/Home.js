@@ -23,7 +23,7 @@ const Home = () => {
   return (
     <div>
       <Navbar2 />
-      <Box container sx={{ mt: 5 }}>
+      <Box container sx={{ mt: 5, ml: 2, mr: 2 }}>
         <Grid
           container
           spacing={10}
@@ -72,7 +72,7 @@ const Home = () => {
           {/* ======================= IMAGE ======================= */}
 
           <Grid item>
-            <img src={Image1} alt="Image1" />
+            <img className="d-block w-100" src={Image1} alt="Image1" />
           </Grid>
         </Grid>
       </Box>
