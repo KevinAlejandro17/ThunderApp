@@ -7,21 +7,34 @@ import Image3 from "./Images/newsletter-dev.png";
 import Image4 from "./Images/chart-bar-33.png";
 import About2 from "./About2";
 import { useEffect } from "react";
-import Navbar from './Navbar.js'
+import Navbar from "./Navbar.js";
 
 const About = () => {
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
   return (
-    <div className="mainPage"> 
+    <div className="mainPage">
       <div className="container">
         <div className="d-flex flex-wrap align-items-center justify-content-center">
           <div className="m-5 textView pt-3">
-            <h1 className="h2head">Estadísticas de consumo</h1>
-            <p className="textAbout pt-4 pb-4 text-center">
-              Esta aplicación permite gestionar toda la información necesaria 
-              sobre el consumo de sus clientes con gráficas, tablas de consumo, 
+            <h2
+              className="h2head"
+              style={{
+                fontWeight: 800,
+                fontFamily: "montserrat",
+              }}
+            >
+              Estadísticas de consumo
+            </h2>
+            <p
+              className="textAbout pt-4 pb-4 text-center"
+              style={{
+                fontFamily: "montserrat",
+              }}
+            >
+              Esta aplicación permite gestionar toda la información necesaria
+              sobre el consumo de sus clientes con gráficas, tablas de consumo,
               diagramas que muestran de manera gráfica todos los datos
             </p>
           </div>
@@ -31,8 +44,22 @@ const About = () => {
           <div className="m-3 viewCard">
             <img className="d-block" src={Image2} alt="Image1" />
             <div className="cardH1 pt-5">
-              <h3>Datos en tiempo real</h3>
-              <p className="pt-3 cardText">
+              <h3
+                style={{
+                  fontFamily: "montserrat",
+                  fontSize: 24,
+                  fontWeight: "bold",
+                }}
+              >
+                Datos en tiempo real
+              </h3>
+              <p
+                className="pt-3 cardText"
+                style={{
+                  fontSize: 18,
+                  fontFamily: "montserrat",
+                }}
+              >
                 Recopila datos en tiempo real de múltiples canales y los mueve
                 en un lago de datos, para mostrarlos de manera gráfica.
               </p>
@@ -42,11 +69,24 @@ const About = () => {
           <div className="m-3 viewCard">
             <img className="d-block" src={Image3} alt="icon" />
             <div className="cardH1 pt-5">
-              <h3>Algoritmos poderosos</h3>
-              <p className="pt-3 cardText">
-                Con la ayuda de poderosos algoritmos, reglas de calidad y técnicas,
-                podemos obtener datos de manera simplificada.
-
+              <h3
+                style={{
+                  fontFamily: "montserrat",
+                  fontSize: 24,
+                  fontWeight: "bold",
+                }}
+              >
+                Algoritmos poderosos
+              </h3>
+              <p
+                className="pt-3 cardText"
+                style={{
+                  fontSize: 18,
+                  fontFamily: "montserrat",
+                }}
+              >
+                Con la ayuda de poderosos algoritmos, reglas de calidad y
+                técnicas, podemos obtener datos de manera simplificada.
               </p>
             </div>
           </div>
@@ -54,17 +94,33 @@ const About = () => {
           <div className="m-8 viewCard">
             <img className="d-block" src={Image4} alt="Imageq" />
             <div className="cardH1 pt-5">
-              <h3>Información empresarial</h3>
-              <p className="pt-3 cardText">
-                Recopile datos limpios procesados ​que estén listos para ser analizados para
-                recopilar valiosos conocimientos empresariales.
+              <h3
+                style={{
+                  fontFamily: "montserrat",
+                  fontSize: 24,
+                  fontWeight: "bold",
+                }}
+              >
+                Información empresarial
+              </h3>
+              <p
+                className="pt-3 cardText"
+                style={{
+                  fontSize: 18,
+                  fontFamily: "montserrat",
+                }}
+              >
+                Recopile datos limpios procesados ​que estén listos para ser
+                analizados para recopilar valiosos conocimientos empresariales.
               </p>
             </div>
           </div>
         </div>
       </div>
-      <br /><br /><br /><br />
-      
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 };
