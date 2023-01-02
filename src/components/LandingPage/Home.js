@@ -21,9 +21,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <Box container>
+    <Box >
       <Navbar2 />
-      <Box container sx={{ mt: 5, px:5}}>
+      <Box
+        sx={{ mt: 5, px: 5, justifyContent: "center", alignItems: "center" }}
+      >
         <Grid
           container
           spacing={10}
@@ -69,6 +71,15 @@ const Home = () => {
           </Grid>
 
           {/* ======================= IMAGE ======================= */}
+          <Grid item>
+            <img
+              width="80%"
+              height="auto"
+              src={Image1}
+              alt="logo"
+              style={{ float: "right" }}
+            />
+          </Grid>
         </Grid>
       </Box>
     </Box>
