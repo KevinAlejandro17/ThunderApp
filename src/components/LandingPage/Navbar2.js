@@ -124,16 +124,54 @@ function Navbar() {
               }}
             >
               <Grid item>
-                <Button color="inherit">About</Button>
+                <Button
+                  sx={{
+                    color: "white",
+                    ":hover": {
+                      bgcolor: "lightblue",
+                      color: "white",
+                    },
+                  }}
+                >
+                  About
+                </Button>
               </Grid>
               <Grid item>
-                <Button color="inherit">Contact us</Button>
+                <Button
+                  sx={{
+                    color: "white",
+                    ":hover": {
+                      bgcolor: "lightblue",
+                      color: "white",
+                    },
+                  }}
+                >
+                  Contact us
+                </Button>
               </Grid>
               <Grid item>
-                <Button color="inherit">Login</Button>
+                <Button
+                  sx={{
+                    color: "white",
+                    ":hover": {
+                      bgcolor: "lightblue",
+                      color: "white",
+                    },
+                  }}
+                >
+                  Login
+                </Button>
               </Grid>
               <Grid item>
-                <IconButton sx={{ color: "white" }}>
+                <IconButton
+                  sx={{
+                    color: "white",
+                    ":hover": {
+                      bgcolor: "lightblue",
+                      color: "white",
+                    },
+                  }}
+                >
                   <HomeIcon />
                 </IconButton>
               </Grid>

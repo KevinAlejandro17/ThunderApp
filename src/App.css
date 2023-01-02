@@ -28,13 +28,17 @@
   height: 100vh;
   z-index: -3;
 }
-
 .backPath {
-  content: "";
   position: relative;
+  display: block;
+}
+
+.backPath::before {
+  content: "";
+  position: absolute;
   background-image: linear-gradient(190deg, #f9f0ff, #e2f1ff);
   clip-path: polygon(0 20%, 100% 0%, 100% 76%, 0% 100%);
-  top: 2850px;
+  top: 10px;
   bottom: 0;
   right: 0;
   left: 0;

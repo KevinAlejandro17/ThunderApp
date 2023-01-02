@@ -1,7 +1,7 @@
 //HOME PAGE
 import React from "react";
 
-import Image1 from "./Images/home3.jpg";
+import Image1 from "./Images/home2.png";
 
 import About from "./About";
 import About2 from "./About2";
@@ -26,84 +26,98 @@ const Home = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box>
-      <Navbar2 />
-      <Box
-        sx={{ mt: 5, px: 5, justifyContent: "center", alignItems: "center" }}
-      >
-        <Grid
-          container
-          spacing={10}
-          sx={{ justifyContent: "center", alignItems: "center" }}
+    <div className="backPath">
+      <Box>
+        <Navbar2 />
+        <Box
+          sx={{
+            mt: 12,
+            px: 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <Grid item>
-            <h3
-              style={{
-                fontWeight: "bold",
-                color: "#1a5c83",
-                textAlign: "left",
-                font: "montserrat",
-              }}
-            >
-              Thunder App
-            </h3>
-
-            <h6
-              className="card-subtitle mb-2 "
-              style={{
-                fontSize: 20,
-                color: "#33b4db",
-                textAlign: "left",
-              }}
-            >
-              Statistics of your customers
-            </h6>
-            <Grid item sx={{ mt: 2, mb: 2 }}>
-              <p>
-                Una aplicación para generar facturas automáticas del consumo de
-                sus clientes
-              </p>
-            </Grid>
-
-            <Grid container spacing={2} mt={4}>
-              <Grid item>
-                <Button variant="contained"> Start free trial </Button>
+          <Grid
+            container
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+              direction: "column",
+            }}
+          >
+            <Grid item>
+              <h3
+                style={{
+                  fontWeight: "bold",
+                  color: "#1a5c83",
+                  textAlign: "left",
+                  font: "montserrat",
+                }}
+              >
+                Thunder App
+              </h3>
+              <h6
+                className="card-subtitle mb-2 "
+                style={{
+                  fontSize: 20,
+                  color: "#33b4db",
+                  textAlign: "left",
+                }}
+              >
+                Statistics of your customers
+              </h6>
+              <Grid item sx={{ mt: 2, mb: 2 }}>
+                <p>
+                  Una aplicación para generar facturas automáticas del consumo
+                  de sus clientes
+                </p>
               </Grid>
-              <Grid item>
-                <Button variant="filled"> Learn More </Button>
+              <Grid container spacing={2} mt={4}>
+                <Grid item>
+                  <Button variant="contained"> Start free trial </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="filled"> Learn More </Button>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-
-          {/* ======================= IMAGE ======================= */}
-          <Grid item>
+            {/* ======================= IMAGE ======================= */}
             {isMobile ? (
-              <img
-                width="80%"
-                height="auto"
-                src={Image1}
-                alt="logo"
-              />
+              <Grid item sx={{ mt: 4 }}>
+                <img
+                  src={Image1}
+                  width="80%"
+                  height="auto"
+                  alt="logo"
+                  alignItems="center"
+                />
+              </Grid>
             ) : (
-              <img
-                width="80%"
-                height="auto"
-                src={Image1}
-                alt="logo"
-                style={{ float: "right" }}
-              />
+              <Grid item xs={4}>
+                <img
+                  src={Image1}
+                  width="80%"
+                  height="auto"
+                  alt="logo"
+                  style={{ float: "right" }}
+                />
+              </Grid>
             )}
           </Grid>
-        </Grid>
+        </Box>
+        <Box sx={{ mt: 8 }}>
+          <About />
+        </Box>
       </Box>
-    </Box>
+    </div>
   );
 };
+
 {
-  /* Other Components to HOME */
-}
-{
-  /*<About />
+  /* Other Components to HOME 
+
+
+  <About />
          
           <Contact />
         </div>
