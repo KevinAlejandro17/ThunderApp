@@ -29,7 +29,7 @@ function AdminLogin() {
     setRespuesta(res.message);
   }
   return (
-    <MDBContainer className="my-5 gradient-form">
+    <MDBContainer className="my-5 mt-9 gradient-form">
       <Navbar />
       <form onSubmit={handleSubmit}>
         <MDBRow>
@@ -37,9 +37,9 @@ function AdminLogin() {
             <div className="d-flex flex-column ms-3">
               <div className="text-center">
                 <h2
-                  className="mt-1 mb-5 pb-1"
+                  className="mt-9 mb-5 pb-1"
                   style={{
-                    marginTop: "15px",
+                    marginTop: "12px",
                     fontSize: 35,
                     fontWeight: 800,
                     color: "#124265",

@@ -85,7 +85,7 @@ function Navbar() {
                 justifyContent: "flex-end",
                 paddingRight: 2,
                 alignItems: "center",
-                mt:0.1
+                mt: 0.1,
               }}
             >
               <Button
@@ -148,6 +148,7 @@ function Navbar() {
             >
               <Grid item>
                 <Button
+                  onClick={() => navigate("/About")}
                   sx={{
                     color: "white",
                     ":hover": {
@@ -161,6 +162,7 @@ function Navbar() {
               </Grid>
               <Grid item>
                 <Button
+                  onClick={() => navigate("/Contact")}
                   sx={{
                     color: "white",
                     ":hover": {
@@ -174,6 +176,7 @@ function Navbar() {
               </Grid>
               <Grid item>
                 <Button
+                  onClick={() => navigate("/Login")}
                   sx={{
                     color: "white",
                     ":hover": {
@@ -187,6 +190,7 @@ function Navbar() {
               </Grid>
               <Grid item>
                 <IconButton
+                  onClick={() => navigate("/")}
                   sx={{
                     color: "white",
                     ":hover": {
