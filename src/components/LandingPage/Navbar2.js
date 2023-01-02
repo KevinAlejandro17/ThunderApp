@@ -39,22 +39,44 @@ function Navbar() {
     setAnchor(event.currentTarget);
   };
 
+  const [fix, setFix] = useState(false);
+
+  const setFixed = () => {
+    if (window.scrollY >= 50) {
+      setFix(true);
+    } else {
+      setFix(false);
+    }
+  };
+
+  window.addEventListener("scroll", setFixed);
+
   const handleClose = () => {
     setAnchor(null);
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar sx={{ backgroundColor: "#124265" }}>
+      <AppBar>
+        <Toolbar
+          className={fix ? "Navbar fixed" : "Navbar"}
+          sx={{ backgroundColor: "#124265" }}
+        >
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             sx={{ paddingLeft: 2 }}
           >
-            <img width="80" height="80" src={logo} alt="logo" />
+            <img
+              className="App-logo"
+              width="80"
+              height="80"
+              src={logo}
+              alt="logo"
+            />
           </IconButton>
+
           {isMobile ? (
             <Grid
               container
@@ -63,6 +85,7 @@ function Navbar() {
                 justifyContent: "flex-end",
                 paddingRight: 2,
                 alignItems: "center",
+                mt:0.1
               }}
             >
               <Button
