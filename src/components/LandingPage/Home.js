@@ -32,7 +32,7 @@ const Home = () => {
         <Box
           sx={{
             mt: 12,
-            px: 10,
+            px: 5,
             justifyContent: "center",
             alignItems: "center",
           }}
