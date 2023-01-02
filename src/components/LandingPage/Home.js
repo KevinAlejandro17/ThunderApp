@@ -1,17 +1,20 @@
 //HOME PAGE
 import React from "react";
+
 import Image1 from "./Images/home3.jpg";
+
 import About from "./About";
 import About2 from "./About2";
-import { useEffect } from "react";
-import Footer from "./Footer";
-import "../../App.css";
 import Contact from "./Contact";
+import Footer from "./Footer";
+
+import { useEffect } from "react";
+import "../../App.css";
 
 import Navbar2 from "./Navbar2";
 
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, useMediaQuery, useTheme } from "@mui/material";
 
 const Home = () => {
   useEffect(() => {
@@ -19,9 +22,11 @@ const Home = () => {
   }, []);
 
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box >
+    <Box>
       <Navbar2 />
       <Box
         sx={{ mt: 5, px: 5, justifyContent: "center", alignItems: "center" }}
@@ -72,13 +77,22 @@ const Home = () => {
 
           {/* ======================= IMAGE ======================= */}
           <Grid item>
-            <img
-              width="80%"
-              height="auto"
-              src={Image1}
-              alt="logo"
-              style={{ float: "right" }}
-            />
+            {isMobile ? (
+              <img
+                width="80%"
+                height="auto"
+                src={Image1}
+                alt="logo"
+              />
+            ) : (
+              <img
+                width="80%"
+                height="auto"
+                src={Image1}
+                alt="logo"
+                style={{ float: "right" }}
+              />
+            )}
           </Grid>
         </Grid>
       </Box>
