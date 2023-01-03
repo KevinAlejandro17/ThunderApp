@@ -7,8 +7,8 @@ import Image3 from "./Images/newsletter-dev.png";
 import Image4 from "./Images/chart-bar-33.png";
 import About2 from "./About2";
 import { useEffect } from "react";
-import Navbar from "./Navbar2.js";
-import MenuIcon from '@mui/icons-material/Menu';
+import Navbar from "./Navbar.js";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import {
   Container,
@@ -18,7 +18,11 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { AccountTree, BarChart, IntegrationInstructions } from "@mui/icons-material";
+import {
+  AccountTree,
+  BarChart,
+  IntegrationInstructions,
+} from "@mui/icons-material";
 
 const About = () => {
   useEffect(() => {

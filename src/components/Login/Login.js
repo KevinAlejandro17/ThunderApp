@@ -1,6 +1,6 @@
 import React from "react";
-import "./AdminLogin.css";
-import Navbar from "../LandingPage/Navbar2.js";
+import "./Login.css";
+import Navbar from "../LandingPage/Navbar.js";
 import {
   MDBBtn,
   MDBContainer,
@@ -80,7 +80,7 @@ function AdminLogin() {
                 ) : respuesta == "Success" && role == "Gerente" ? (
                   navigate(`/Gerente`)
                 ) : respuesta == "Success" && role == "Admin" ? (
-                  navigate('/Dashboard')
+                  navigate("/Dashboard")
                 ) : (
                   <div></div>
                 )}

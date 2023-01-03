@@ -51,12 +51,11 @@
     #edfafc,
     #f8ffff
   );
-  clip-path: polygon(0 20%, 100% 0%, 100% 76%, 0% 100%);
   top: -280px;
   right: 0;
   left: 0;
   width: auto;
-  height: 102vh;
+  height: 650px;
   z-index: -3;
 }
 
@@ -296,4 +295,25 @@
 .About-textmobile {
   font-size: 16;
   text-align: center;
+}
+
+.custom-shape-divider-bottom-1672727590 {
+    position: absolute;
+    width: 100%;
+    top:45vh;
+    bottom:0;
+    overflow: hidden;
+    line-height: 0;
+    z-index: -3;
+}
+
+.custom-shape-divider-bottom-1672727590 svg {
+    position: relative;
+    display: block;
+    width: calc(145% + 1.3px);
+    height: 129px;
+}
+
+.custom-shape-divider-bottom-1672727590 .shape-fill {
+    fill: #FFFFFF;
 }

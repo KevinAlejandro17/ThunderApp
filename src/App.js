@@ -5,7 +5,7 @@ import Home from './components/LandingPage/Home';
 import About from './components/LandingPage/About';
 import Contact from './components/LandingPage/Contact';
 
-import Login from './components/Adminlogin/AdminLogin';
+import Login from './components/Login/Login';
 import Register from './components/AdminRegister/AdminRegister';
 import Form from "./components/UserData/UserData";
 import UserList from "./components/UserList/UserList";
