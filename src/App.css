@@ -52,11 +52,11 @@
     #f8ffff
   );
   clip-path: polygon(0 20%, 100% 0%, 100% 76%, 0% 100%);
-  top: -200px;
+  top: -280px;
   right: 0;
   left: 0;
   width: auto;
-  height: 86vh;
+  height: 102vh;
   z-index: -3;
 }
 
