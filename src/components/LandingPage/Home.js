@@ -114,23 +114,12 @@ const Home = () => {
         </Box>
         <Box sx={{ mt: 8 }}>
           <About />
+          <About2 />
         </Box>
       </Box>
     </div>
   );
 };
-
-{
-  /* Other Components to HOME 
-
-
-  <About />
-         
-          <Contact />
-        </div>
-        <Footer />
-                </div>*/
-}
 
 export default Home;
 // CODE BY GRACY PATEL
