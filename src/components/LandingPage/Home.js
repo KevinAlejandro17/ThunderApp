@@ -2,7 +2,6 @@
 import React from "react";
 
 import About from "./About";
-import About2 from "./About2";
 import Contact from "./Contact";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
@@ -21,11 +20,9 @@ const Home = () => {
   return (
     <div className="backPath">
       <Box>
-        <Navbar />
         <Banner />
         <Box sx={{ mt: 8 }}>
           <About />
-          <About2 />
         </Box>
         <Box>
           <Footer />

@@ -17,35 +17,17 @@ import {
   TableRow,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
+
+import { makeStyles } from "@material-ui/core";
 
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
 import { MDBRow } from "mdb-react-ui-kit";
-
-const FooterSection = () => {
-  return (
-    <Grid item xs={12} sm={4} md={6}>
-      <Card
-        className="Card-info"
-        sx={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          px: 2,
-          py: 2,
-          backgroundColor: "rgba(0, 0, 0, 0)",
-        }}
-      >
-        <CardContent sx={{ textAlign: "center" }}>
-          <img src={logo} alt="Logo" width="100px"></img>
-        </CardContent>
-      </Card>
-    </Grid>
-  );
-};
 
 const Footer = () => {
   const productsRows = [
@@ -68,77 +50,31 @@ const Footer = () => {
     "Partner Portal",
   ];
 
+  const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <>
       <Box className="Footer" sx={{ pt: 4, pb: 4, mt: 12 }}>
         <Container maxWidth="lg">
           <Grid
             container
-            spacing={4}
+            spacing={isMobile ? 1 : 4}
             sx={{ justifyContent: "center", alignItems: "top", paddingX: 2 }}
           >
             <Grid item xs={12} sm={4} md={3}>
               <Card
-                className="Card-info"
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  px: 2,
-                  py: 2,
-                  backgroundColor: "rgba(255, 255, 255, 0)",
-                }}
+                variant="contained"
+                className={isMobile ? classes.cardsMobile : classes.cards}
               >
                 <CardContent sx={{ textAlign: "center", position: "relative" }}>
-                  <Grid
-                    container
-                    spacing={1}
-                    sx={{
-                      position: "absolute",
-                      left: "0",
-                    }}
-                  >
-                    <Grid item>
-                      <Paper
-                        sx={{
-                          height: "5vh",
-                          width: "5vh",
-                          backgroundColor: "rgba(255,255,255,0)",
-                        }}
-                      >
-                        <FacebookIcon
-                          sx={{ fontSize: 36, color: "aliceblue" }}
-                        />
-                      </Paper>
-                    </Grid>
+                  <Grid container>
+                    <FacebookIcon sx={{ fontSize: 36, color: "aliceblue" }} />
 
-                    <Grid item>
-                      <Paper
-                        sx={{
-                          height: "5vh",
-                          width: "5vh",
-                          backgroundColor: "rgba(255,255,255,0)",
-                        }}
-                      >
-                        <TwitterIcon
-                          sx={{ fontSize: 36, color: "aliceblue" }}
-                        />
-                      </Paper>
-                    </Grid>
+                    <TwitterIcon sx={{ fontSize: 36, color: "aliceblue" }} />
 
-                    <Grid item>
-                      <Paper
-                        sx={{
-                          height: "5vh",
-                          width: "5vh",
-                          backgroundColor: "rgba(255,255,255,0)",
-                        }}
-                      >
-                        <InstagramIcon
-                          sx={{ fontSize: 36, color: "aliceblue" }}
-                        />
-                      </Paper>
-                    </Grid>
+                    <InstagramIcon sx={{ fontSize: 36, color: "aliceblue" }} />
                   </Grid>
                 </CardContent>
               </Card>
@@ -146,15 +82,8 @@ const Footer = () => {
 
             <Grid item xs={12} sm={4} md={6}>
               <Card
-                className="Card-info"
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  px: 2,
-                  py: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0)",
-                }}
+                variant="contained"
+                className={isMobile ? classes.cardsMobile : classes.cards}
               >
                 <CardContent sx={{ textAlign: "center" }}>
                   <img src={logo} alt="Logo" width="100px"></img>
@@ -162,33 +91,16 @@ const Footer = () => {
               </Card>
             </Grid>
 
-            <Grid item xs={12} sm={4} md={3}>
-              <Card
-                className="Card-info"
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  px: 2,
-                  py: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0)",
-                }}
-              >
-                <CardContent sx={{ textAlign: "center" }}></CardContent>
-              </Card>
-            </Grid>
+            {isMobile ? undefined : (
+              <Grid item xs={12} sm={4} md={3}>
+                <Card />
+              </Grid>
+            )}
 
-            <Grid item xs={12} sm={4} md={3}>
+            <Grid item xs={isMobile ? 6 : 12} sm={4} md={3}>
               <Card
-                className="Card-info"
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  px: 2,
-                  py: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0)",
-                }}
+                variant="contained"
+                className={isMobile ? classes.cardsMobile : classes.cards}
               >
                 <CardContent>
                   <h3>Products</h3>
@@ -201,17 +113,10 @@ const Footer = () => {
               </Card>
             </Grid>
 
-            <Grid item xs={12} sm={4} md={3}>
+            <Grid item xs={isMobile ? 6 : 12} sm={4} md={3}>
               <Card
-                className="Card-info"
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  px: 2,
-                  py: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0)",
-                }}
+                variant="contained"
+                className={isMobile ? classes.cardsMobile : classes.cards}
               >
                 <CardContent>
                   <h3>For developers</h3>
@@ -224,17 +129,10 @@ const Footer = () => {
               </Card>
             </Grid>
 
-            <Grid item xs={12} sm={4} md={3}>
+            <Grid item xs={isMobile ? 6 : 12} sm={4} md={3}>
               <Card
-                className="Card-info"
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  px: 2,
-                  py: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0)",
-                }}
+                variant="contained"
+                className={isMobile ? classes.cardsMobile : classes.cards}
               >
                 <CardContent>
                   <h3>Support</h3>
@@ -247,41 +145,32 @@ const Footer = () => {
               </Card>
             </Grid>
 
-            <Grid item xs={12} sm={4} md={3}>
+            <Grid item xs={isMobile ? 6 : 12} sm={4} md={3}>
               <Card
-                className="Card-info"
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  px: 2,
-                  py: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0)",
-                  alignItems: "center",
-                }}
+                variant="contained"
+                className={isMobile ? classes.cardsMobile : classes.cards}
+                sx={{ justifyContent: "center", alignItems: "center" }}
               >
-                <CardContent sx={{ textAlign: "center" }}>
+                <CardContent>
                   <h3>Newsletter</h3>
                 </CardContent>
-                <TextField variant="standard" placeHolder="Email" />
+                <Grid item xs={10}>
+                  <TextField variant="standard" placeHolder="Email" />
+                </Grid>
               </Card>
             </Grid>
 
-            <Grid item xs={12} sm={4} md={8}>
+            <Grid item xs={isMobile ? 8 : 12} sm={4} md={8}>
               <Card
-                className="Card-info"
+                variant="contained"
+                className={isMobile ? classes.cardsMobile : classes.cards}
                 sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  px: 2,
-                  py: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0)",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
                 <Typography
+                  fontSize={isMobile ? "14px" : "16px"}
                   variant="body"
                   textAlign="center"
                   fontFamily="montserrat"
@@ -301,4 +190,22 @@ const Footer = () => {
   );
 };
 export default Footer;
-// CODE BY GRACY PATEL
+
+const useStyles = makeStyles((theme) => ({
+  cards: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    padding: 10,
+    backgroundColor: "rgba(255, 255, 255, 0)",
+  },
+
+  cardsMobile: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    padding: 10,
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0)",
+  },
+}));

@@ -30,7 +30,6 @@ const About = () => {
   }, []);
   return (
     <div className="mainPage">
-      <Navbar />
       <Container sx={{ py: 8, mt: 8, px: 6 }} maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={6} md={4}>
@@ -132,6 +131,7 @@ const About = () => {
           </Grid>
         </Grid>
       </Container>
+      <About2/>
     </div>
   );
 };
