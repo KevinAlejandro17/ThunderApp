@@ -196,9 +196,11 @@
   text-decoration: underline;
 }
 .footer {
-  background-color: #fbfcff;
-  height: 40vh;
+
+  height: 90vh;
   margin-top: 100px;
+  justify-content: center;
+  align-items: center;
 }
 .logo-img-footer {
   margin: 50px;
@@ -337,4 +339,8 @@
 
 .custom-shape-divider-bottom-1672727591 .shape-fill {
     fill: #FFFFFF;
+}
+
+.Footer {
+  background-color: #bdbdda;
 }

@@ -27,6 +27,9 @@ const Home = () => {
           <About />
           <About2 />
         </Box>
+        <Box>
+          <Footer />
+        </Box>
       </Box>
     </div>
   );
