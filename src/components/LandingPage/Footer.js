@@ -67,6 +67,7 @@ const Footer = () => {
               <Card
                 variant="contained"
                 className={isMobile ? classes.cardsMobile : classes.cards}
+                sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
                 <CardContent sx={{ textAlign: "center", position: "relative" }}>
                   <Grid container>
@@ -84,6 +85,7 @@ const Footer = () => {
               <Card
                 variant="contained"
                 className={isMobile ? classes.cardsMobile : classes.cards}
+                sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
                 <CardContent sx={{ textAlign: "center" }}>
                   <img src={logo} alt="Logo" width="100px"></img>
@@ -101,6 +103,7 @@ const Footer = () => {
               <Card
                 variant="contained"
                 className={isMobile ? classes.cardsMobile : classes.cards}
+                sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
                 <CardContent>
                   <h3>Products</h3>
@@ -117,6 +120,7 @@ const Footer = () => {
               <Card
                 variant="contained"
                 className={isMobile ? classes.cardsMobile : classes.cards}
+                sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
                 <CardContent>
                   <h3>For developers</h3>
@@ -133,6 +137,7 @@ const Footer = () => {
               <Card
                 variant="contained"
                 className={isMobile ? classes.cardsMobile : classes.cards}
+                sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
                 <CardContent>
                   <h3>Support</h3>
@@ -149,7 +154,11 @@ const Footer = () => {
               <Card
                 variant="contained"
                 className={isMobile ? classes.cardsMobile : classes.cards}
-                sx={{ justifyContent: "center", alignItems: "center" }}
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "rgba(255, 255, 255, 0)",
+                }}
               >
                 <CardContent>
                   <h3>Newsletter</h3>
@@ -167,6 +176,7 @@ const Footer = () => {
                 sx={{
                   alignItems: "center",
                   justifyContent: "center",
+                  backgroundColor: "rgba(255, 255, 255, 0)"
                 }}
               >
                 <Typography
@@ -197,7 +207,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: 10,
-    backgroundColor: "rgba(255, 255, 255, 0)",
   },
 
   cardsMobile: {
@@ -206,6 +215,5 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     padding: 10,
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0)",
   },
 }));
