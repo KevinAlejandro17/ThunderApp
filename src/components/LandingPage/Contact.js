@@ -2,7 +2,7 @@ import React from "react";
 import "./Contact.css";
 import Img1 from "./Images/logo3.png";
 import { useEffect } from "react";
-import Navbar from "./Navbar.js";
+
 import {
   MDBBtn,
   MDBCard,
@@ -20,21 +20,21 @@ function Contact() {
   }, []);
   return (
     <>
-      <Navbar />
-
       <div
-        className="mx-auto gradient-custom mt-8"
-        style={{ maxWidth: "800px", height: "470px" }}
+        className="mx-auto gradient-custom "
+        height="100%"
+        width="auto"
+        style={{ marginTop: "100px"}}
       >
         <MDBRow className="pt-3 mx-3">
           <MDBCol md="3">
             <div
               className="text-center"
-              style={{ marginTop: "50px", marginLeft: "10px" }}
+              style={{ marginTop: "10px", marginLeft: "10px" }}
             >
               <MDBIcon fas icon="shipping-fast text-white" size="3x" />
               <MDBTypography tag="h3" className="text-white">
-                <img className="d-block w-100" src={Img1} alt="LOGO MAIN" />
+                <img className="d-block w-80" src={Img1} alt="LOGO MAIN" />
               </MDBTypography>
               <p className="white-text">
                 Send us an email for contact us with you

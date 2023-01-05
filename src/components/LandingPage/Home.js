@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import "../../App.css";
 
 import { Box } from "@mui/material";
+import Contact2 from './Contact2';
 
 const Home = () => {
   useEffect(() => {
@@ -23,6 +24,9 @@ const Home = () => {
         <Banner />
         <Box sx={{ mt: 8 }}>
           <About />
+        </Box>
+        <Box>
+          <Contact2 landing={true} />
         </Box>
         <Box>
           <Footer />

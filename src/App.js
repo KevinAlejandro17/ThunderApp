@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/LandingPage/Home";
 import About from "./components/LandingPage/About";
-import Contact from "./components/LandingPage/Contact";
+import Contact2 from "./components/LandingPage/Contact2";
 
 import Navbar from "./components/LandingPage/Navbar";
 
@@ -32,7 +32,7 @@ function App() {
         <Route path="/update/:id" element={<Form />} />
         <Route path="/" element={<Home />} />
         <Route path="/About" element={<About />} />
-        <Route path="/Contact" element={<Contact />} />
+        <Route path="/Contact" element={<Contact2 />} />
         <Route path="/Gerente" element={<Gerente />} />
         <Route path="/Administrador" element={<Administrador />} />
         <Route path="/Cliente" element={<Cliente />} />

@@ -9,10 +9,12 @@ import logo from "./Images/whiteLogo.png";
 
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Container,
   Grid,
+  IconButton,
   Paper,
   TableRow,
   TextField,
@@ -28,6 +30,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
 import { MDBRow } from "mdb-react-ui-kit";
+import { Send } from "@mui/icons-material";
 
 const Footer = () => {
   const productsRows = [
@@ -72,15 +75,12 @@ const Footer = () => {
                 <CardContent sx={{ textAlign: "center", position: "relative" }}>
                   <Grid container>
                     <FacebookIcon sx={{ fontSize: 36, color: "aliceblue" }} />
-
                     <TwitterIcon sx={{ fontSize: 36, color: "aliceblue" }} />
-
                     <InstagramIcon sx={{ fontSize: 36, color: "aliceblue" }} />
                   </Grid>
                 </CardContent>
               </Card>
             </Grid>
-
             <Grid item xs={12} sm={4} md={6}>
               <Card
                 variant="contained"
@@ -155,17 +155,22 @@ const Footer = () => {
                 variant="contained"
                 className={isMobile ? classes.cardsMobile : classes.cards}
                 sx={{
-                  justifyContent: "center",
-                  alignItems: "center",
                   backgroundColor: "rgba(255, 255, 255, 0)",
                 }}
               >
                 <CardContent>
                   <h3>Newsletter</h3>
+                  <Grid container display="row" paddingX="2px" spacing={1}>
+                    <Grid item xs={8}>
+                      <TextField variant="standard" placeholder="Email" />
+                    </Grid>
+                    <Grid item>
+                      <IconButton variant="filled">
+                        <Send sx={{ color: "aliceblue" }} />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
                 </CardContent>
-                <Grid item xs={10}>
-                  <TextField variant="standard" placeHolder="Email" />
-                </Grid>
               </Card>
             </Grid>
 
@@ -176,7 +181,7 @@ const Footer = () => {
                 sx={{
                   alignItems: "center",
                   justifyContent: "center",
-                  backgroundColor: "rgba(255, 255, 255, 0)"
+                  backgroundColor: "rgba(255, 255, 255, 0)",
                 }}
               >
                 <Typography
