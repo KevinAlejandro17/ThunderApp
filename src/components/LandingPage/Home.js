@@ -2,9 +2,7 @@
 import React from "react";
 
 import About from "./About";
-import Contact from "./Contact";
 import Footer from "./Footer";
-import Navbar from "./Navbar";
 import Banner from "./Banner";
 
 import { useEffect } from "react";

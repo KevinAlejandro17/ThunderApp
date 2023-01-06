@@ -1,5 +1,4 @@
 import { Box, Button, Grid, useMediaQuery, useTheme } from "@mui/material";
-import { fontFamily } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
 import Image1 from "./Images/home2.png";
@@ -50,7 +49,7 @@ const Banner = () => {
                 fontFamily: "montserrat",
               }}
             >
-              Statistics of your customers
+              Estadísticas de sus clientes
             </h6>
             <Grid item sx={{ mt: 2, mb: 2 }}>
               <p
@@ -59,19 +58,19 @@ const Banner = () => {
                   fontFamily: "montserrat",
                 }}
               >
-                An application to generate automatic bills of your customers
-                consumption
+                Una aplicación para generar facturas automáticas del consumo
+                energético de sus clientes
               </p>
             </Grid>
             <Grid container spacing={2} mt={4}>
               <Grid item>
                 <Button variant="contained" onClick={() => navigate("/Login")}>
-                  Start free trial
+                  Comenzar prueba gratuita
                 </Button>
               </Grid>
               <Grid item>
                 <Button variant="filled" onClick={() => navigate("/About")}>
-                  Learn More
+                  Leer más
                 </Button>
               </Grid>
             </Grid>
@@ -102,7 +101,7 @@ const Banner = () => {
       </Box>
 
       <div
-        class={
+        className={
           isMobile
             ? "custom-shape-divider-bottom-1672727591"
             : "custom-shape-divider-bottom-1672727590"
@@ -114,7 +113,7 @@ const Banner = () => {
           viewBox="0 0 1200 120"
           preserveAspectRatio="none"
         >
-          <path d={svgURL} class="shape-fill"></path>
+          <path d={svgURL} className="shape-fill"></path>
         </svg>
       </div>
     </div>

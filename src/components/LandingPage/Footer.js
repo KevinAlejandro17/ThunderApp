@@ -1,35 +1,29 @@
 import React from "react";
 import "../../App.css";
-import Img1 from "./Images/logo.png";
-import Img2 from "./Images/facebook-icon.png";
-import Img3 from "./Images/twitter-3.png";
-import Img4 from "./Images/instagram-2016.png";
 
 import logo from "./Images/whiteLogo.png";
 
 import {
   Box,
-  Button,
   Card,
   CardContent,
   Container,
   Grid,
   IconButton,
-  Paper,
-  TableRow,
   TextField,
   Typography,
   useMediaQuery,
   useTheme,
+  Link,
 } from "@mui/material";
 
 import { makeStyles } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
-import { MDBRow } from "mdb-react-ui-kit";
 import { Send } from "@mui/icons-material";
 
 const Footer = () => {
@@ -56,6 +50,7 @@ const Footer = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
 
   return (
     <>
@@ -74,9 +69,17 @@ const Footer = () => {
               >
                 <CardContent sx={{ textAlign: "center", position: "relative" }}>
                   <Grid container>
-                    <FacebookIcon sx={{ fontSize: 36, color: "aliceblue" }} />
-                    <TwitterIcon sx={{ fontSize: 36, color: "aliceblue" }} />
-                    <InstagramIcon sx={{ fontSize: 36, color: "aliceblue" }} />
+                    <Link href="https://www.facebook.com/" target="_blank">
+                      <FacebookIcon sx={{ fontSize: 36, color: "aliceblue" }} />
+                    </Link>
+                    <Link href="https://twitter.com/" target="_blank">
+                      <TwitterIcon sx={{ fontSize: 36, color: "aliceblue" }} />
+                    </Link>
+                    <Link href="https://www.instagram.com/" target="_blank">
+                      <InstagramIcon
+                        sx={{ fontSize: 36, color: "aliceblue" }}
+                      />
+                    </Link>
                   </Grid>
                 </CardContent>
               </Card>
@@ -108,7 +111,7 @@ const Footer = () => {
                 <CardContent>
                   <h3>Products</h3>
                   {productsRows.map((product) => (
-                    <Typography sx={{ fontSize: 14, py: 0.2 }}>
+                    <Typography key={product} sx={{ fontSize: 14, py: 0.2 }}>
                       {product}
                     </Typography>
                   ))}
@@ -125,7 +128,7 @@ const Footer = () => {
                 <CardContent>
                   <h3>For developers</h3>
                   {forDevRows.map((item) => (
-                    <Typography sx={{ fontSize: 14, py: 0.2 }}>
+                    <Typography key={item} sx={{ fontSize: 14, py: 0.2 }}>
                       {item}
                     </Typography>
                   ))}
@@ -142,7 +145,7 @@ const Footer = () => {
                 <CardContent>
                   <h3>Support</h3>
                   {supportRows.map((item) => (
-                    <Typography sx={{ fontSize: 14, py: 0.2 }}>
+                    <Typography key={item} sx={{ fontSize: 14, py: 0.2 }}>
                       {item}
                     </Typography>
                   ))}

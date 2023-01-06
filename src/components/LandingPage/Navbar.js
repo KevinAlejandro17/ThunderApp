@@ -22,6 +22,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { useNavigate } from "react-router-dom";
 
+
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from "@mui/icons-material/Info";
@@ -151,13 +152,15 @@ function Navbar() {
                   onClick={() => navigate("/About")}
                   sx={{
                     color: "white",
+                    fontWeight: 550,
+                    fontFamily: "Montserrat",
                     ":hover": {
                       bgcolor: "lightblue",
                       color: "white",
                     },
                   }}
                 >
-                  About
+                  Acerca de
                 </Button>
               </Grid>
               <Grid item>
@@ -165,13 +168,15 @@ function Navbar() {
                   onClick={() => navigate("/Contact")}
                   sx={{
                     color: "white",
+                    fontWeight: 550,
+                    fontFamily: "Montserrat",
                     ":hover": {
                       bgcolor: "lightblue",
                       color: "white",
                     },
                   }}
                 >
-                  Contact us
+                  Contactanos
                 </Button>
               </Grid>
               <Grid item>
@@ -179,13 +184,15 @@ function Navbar() {
                   onClick={() => navigate("/Login")}
                   sx={{
                     color: "white",
+                    fontWeight: 550,
+                    fontFamily: "Montserrat",
                     ":hover": {
                       bgcolor: "lightblue",
                       color: "white",
                     },
                   }}
                 >
-                  Login
+                  Ingresar
                 </Button>
               </Grid>
               <Grid item>

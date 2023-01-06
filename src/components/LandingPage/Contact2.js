@@ -7,11 +7,10 @@ import {
   Grid,
   Typography,
   Button,
-  FormControl,
-  Container,
-  Input,
   TextField,
   Paper,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 
 import "./Contact.css";
@@ -51,6 +50,8 @@ const MyPaper = ({ children, landing }) => {
 
 const Contact2 = ({ landing }) => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box className={landing ? "Contact-landing" : "Contact-gradient"}>
@@ -65,41 +66,50 @@ const Contact2 = ({ landing }) => {
               alignItems: "center",
             }}
           >
-            <Grid item md={4}>
-              <Card
-                variant="contained"
-                sx={{ backgroundColor: "rgba(255,255,255,0)" }}
-              >
-                <CardMedia>
-                  <img
-                    src={logo}
-                    alt="Thunder Logo"
-                    width="120px"
-                    height="auto"
-                  />
-                </CardMedia>
-                <CardContent>
-                  <Typography variant="body" color={landing ? "white" : "black"}>
-                    Send us an email for <br /> contact us with you
-                  </Typography>
-                </CardContent>
-                <CardActions
-                  sx={{ alignItems: "center", justifyContent: "center" }}
+            {isMobile ? (
+              <></>
+            ) : (
+              <Grid item md={4}>
+                <Card
+                  variant="contained"
+                  sx={{ backgroundColor: "rgba(255,255,255,0)" }}
                 >
-                  {landing ? (
-                    <Button variant="contained" sx={{ color: "white" }}>
-                      Go back
-                    </Button>
-                  ) : (
-                    <Button variant="outlined">Go back</Button>
-                  )}
-                </CardActions>
-              </Card>
-            </Grid>
+                  <CardMedia>
+                    <img
+                      src={logo}
+                      alt="Thunder Logo"
+                      width="120px"
+                      height="auto"
+                    />
+                  </CardMedia>
+                  <CardContent>
+                    <Typography
+                      variant="body"
+                      color={landing ? "white" : "black"}
+                    >
+                      Send us an email for <br /> contact us with you
+                    </Typography>
+                  </CardContent>
+                  <CardActions
+                    sx={{ alignItems: "center", justifyContent: "center" }}
+                  >
+                    {landing ? (
+                      <Button variant="contained" sx={{ color: "white" }}>
+                        Go back
+                      </Button>
+                    ) : (
+                      <Button variant="outlined">Go back</Button>
+                    )}
+                  </CardActions>
+                </Card>
+              </Grid>
+            )}
 
             <Grid
               item
               md={8}
+              xs={12}
+              sm={12}
               sx={{ px: 4, py: 2, borderRadius: 4 }}
               backgroundColor={landing ? "white" : undefined}
             >
@@ -131,7 +141,6 @@ const Contact2 = ({ landing }) => {
                 />
                 <Grid
                   container
-                  md={12}
                   sx={{
                     columnGap: 4.2,
                     direction: "column",

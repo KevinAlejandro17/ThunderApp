@@ -2,19 +2,15 @@
 import React from "react";
 import "../../App.css";
 //Image import
-import Image2 from "./Images/timeline.png";
-import Image3 from "./Images/newsletter-dev.png";
-import Image4 from "./Images/chart-bar-33.png";
+
 import About2 from "./About2";
 import { useEffect } from "react";
-import Navbar from "./Navbar.js";
-import MenuIcon from "@mui/icons-material/Menu";
+
 
 import {
   Container,
   Grid,
   Card,
-  CardMedia,
   CardContent,
   Typography,
 } from "@mui/material";

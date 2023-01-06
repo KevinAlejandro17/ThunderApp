@@ -11,12 +11,10 @@ import {
   CardContent,
   Container,
   Grid,
-  Paper,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { typography } from "@mui/system";
 
 const About2 = () => {
   const theme = useTheme();
@@ -29,10 +27,9 @@ const About2 = () => {
           <Card
             className={isMobile ? "Card-mobile" : "Card-default"}
             variant="filled"
-            textAlign="center"
           >
             <Box className="Paper-def" variant="contained" textAlign="center" sx={{px:5}}>
-              <img src={Image1} />
+              <img src={Image1} alt="Image1"/>
             </Box>
 
             <CardContent sx={{ flexGrow: 1, px:5}}>
