@@ -92,7 +92,11 @@ function AdminLogin() {
                 onChange={(e) => setRole(e.target.value)}
               >
                 <option selected={true} disabled="disabled">
-                  Seleccione el rol a desempeñar
+                  {isMobile ? (
+                    <>Seleccione el rol</>
+                  ) : (
+                    <>Seleccione el rol a desempeñar</>
+                  )}
                 </option>
                 <option value="Cliente">Cliente</option>
                 <option value="Gerente">Gerente </option>
@@ -113,26 +117,30 @@ function AdminLogin() {
             </div>
           </Grid>
 
-          {isMobile ? <></> : (<Grid item md={6}>
-            <div className="d-flex flex-column  justify-content-center gradient-custom-2 h-100">
-              <div className="text-white px-3 py-4 p-md-5 mx-md-4">
-                <Typography
-                  variant="h5"
-                  fontFamily="Montserrat"
-                  fontWeight="bold"
-                  mb={3}
-                >
-                  Somos más que sólo una compañía
-                </Typography>
-                <Typography className="small mb-0" fontFamily="Montserrat">
-                  Una empresa de energía eléctrica que desarrolla un sistema
-                  para gestionar la información de sus clientes ya sean
-                  corporativos o personas naturales, su consumo y la
-                  facturación.
-                </Typography>
+          {isMobile ? (
+            <></>
+          ) : (
+            <Grid item md={6}>
+              <div className="d-flex flex-column  justify-content-center gradient-custom-2 h-100">
+                <div className="text-white px-3 py-4 p-md-5 mx-md-4">
+                  <Typography
+                    variant="h5"
+                    fontFamily="Montserrat"
+                    fontWeight="bold"
+                    mb={3}
+                  >
+                    Somos más que sólo una compañía
+                  </Typography>
+                  <Typography className="small mb-0" fontFamily="Montserrat">
+                    Una empresa de energía eléctrica que desarrolla un sistema
+                    para gestionar la información de sus clientes ya sean
+                    corporativos o personas naturales, su consumo y la
+                    facturación.
+                  </Typography>
+                </div>
               </div>
-            </div>
-          </Grid>)}
+            </Grid>
+          )}
         </Grid>
       </form>
     </Box>

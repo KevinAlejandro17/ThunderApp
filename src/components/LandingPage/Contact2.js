@@ -54,14 +54,25 @@ const Contact2 = ({ landing }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box className={landing ? "Contact-landing" : "Contact-gradient"}>
-      <Box className="Contact-form" marginTop={landing ? "0px" : "50px"}>
+    <Box
+      className={
+        landing
+          ? "Contact-landing"
+          : isMobile
+          ? "Contact-gradient-mob"
+          : "Contact-gradient"
+      }
+    >
+      <Box
+        className={isMobile ? "Contact-form-mob" : "Contact-form"}
+        marginTop={landing ? "0px" : isMobile ? "0px" : "50px"}
+      >
         <MyPaper landing={landing}>
           <Grid
             container
             textAlign="center"
+            paddingX={isMobile ? (landing ? 0 : 4) : 4}
             sx={{
-              px: 4,
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -108,21 +119,22 @@ const Contact2 = ({ landing }) => {
             <Grid
               item
               md={8}
-              xs={12}
-              sm={12}
-              sx={{ px: 4, py: 2, borderRadius: 4 }}
+              xs={8}
+              sm={8}
+              paddingX={isMobile ? (landing ? 4 : 0) : 4}
+              sx={{ py: 2, borderRadius: 4, justifyContent: "center" }}
               backgroundColor={landing ? "white" : undefined}
             >
               <Typography
+                fontSize={isMobile ? 22: 30}
                 sx={{
-                  fontSize: 30,
                   fontWeight: 800,
                   color: "#124265",
                   textAlign: "center",
-                  fontFamily: "montserrat",
+                  fontFamily: "Montserrat",
                 }}
               >
-                Contact us
+                Contáctanos
               </Typography>
               <Box component="form" sx={{ py: 2 }}>
                 <TextField
@@ -147,7 +159,7 @@ const Contact2 = ({ landing }) => {
                     mb: 2,
                   }}
                 >
-                  <Grid item md={5.5}>
+                  <Grid item md={5.5} marginBottom={isMobile ? 2 : 0}>
                     <TextField
                       label="Subject"
                       variant="outlined"
