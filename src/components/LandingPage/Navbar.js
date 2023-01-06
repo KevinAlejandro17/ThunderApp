@@ -84,7 +84,6 @@ function Navbar() {
               spacing={2}
               sx={{
                 justifyContent: "flex-end",
-                paddingRight: 2,
                 alignItems: "center",
                 mt: 0.1,
               }}
