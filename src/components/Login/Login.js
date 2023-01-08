@@ -1,18 +1,20 @@
 import React from "react";
 import "./Login.css";
-import Navbar from "../LandingPage/Navbar.js";
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBInput,
-} from "mdb-react-ui-kit";
+
 import logo from "../LandingPage/Images/logo2.png";
+
 import { verifyUser } from "../UserList/UserAPI";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  TextField,
+  Button,
+} from "@mui/material";
 
 function AdminLogin() {
   const [id, setId] = useState(0);
@@ -35,7 +37,6 @@ function AdminLogin() {
 
   return (
     <Box sx={{ mt: "80px" }}>
-      <Navbar />
       <form onSubmit={handleSubmit}>
         <Grid container>
           <Grid item md={6} sx={{ px: 12 }}>
@@ -70,24 +71,35 @@ function AdminLogin() {
                 )}
               </div>
 
-              <MDBInput
-                wrapperClass="mb-3"
-                label="ID"
-                id="form1"
-                onChange={(event) => setId(event.target.value)}
-              />
-              <MDBInput
-                wrapperClass={isMobile ? "mb-3" : "mb-1"}
-                label="Password"
-                id="form2"
-                type="password"
-                onChange={(event) => {
-                  setPassword(event.target.value);
-                }}
-              />
+              <Grid
+                container
+                display="flex"
+                direction="column"
+                rowGap={2}
+                marginBottom={isMobile ? 3 : 1}
+              >
+                <TextField
+                  label="ID"
+                  id="form1"
+                  size="small"
+                  onChange={(event) => setId(event.target.value)}
+                  sx={{ border: "2px solid lightgray", borderRadius: "5px" }}
+                />
+                <TextField
+                  marginBottom={isMobile ? 3 : 1}
+                  label="Password"
+                  id="form2"
+                  type="password"
+                  size="small"
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                  }}
+                  sx={{ border: "2px solid lightgray", borderRadius: "5px" }}
+                />
+              </Grid>
 
               <select
-                className="w-100 mb-3 select"
+                className="w-100 mb-2 select"
                 id="role"
                 onChange={(e) => setRole(e.target.value)}
               >
@@ -103,17 +115,33 @@ function AdminLogin() {
                 <option value="Operador">Operador</option>
                 <option value="Admin">Administrador</option>
               </select>
-              <div className="text-center mb-5 pb-1">
-                <MDBBtn
-                  className="mb-4 mt-3 w-100 gradient-custom-2"
-                  type="submit"
-                >
-                  Ingresar
-                </MDBBtn>
-                <a className="text-muted" href="#!">
-                  Olvidaste tu contraseña?
-                </a>
-              </div>
+
+              <Grid
+                container
+                sx={{
+                  textAlign: "center",
+                  mb: 5,
+                  pb: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Grid item xs={12}>
+                  <Button
+                    className="gradient-custom-2"
+                    type="submit"
+                    fullWidth
+                    sx={{ mb: 2.5, mt: 3, color: "white" }}
+                  >
+                    Ingresar
+                  </Button>
+                </Grid>
+                <Grid item textAlign="center">
+                  <a className="text-muted" href="#!">
+                    Olvidaste tu contraseña?
+                  </a>
+                </Grid>
+              </Grid>
             </div>
           </Grid>
 
