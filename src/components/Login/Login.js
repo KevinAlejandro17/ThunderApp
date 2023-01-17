@@ -1,11 +1,12 @@
 import React from "react";
 import "./Login.css";
+import * as UserAPI from "../UserList/UserAPI";
 
 import logo from "../LandingPage/Images/logo2.png";
 
 import { verifyUser } from "../UserList/UserAPI";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import {
   Box,
   Grid,
@@ -14,10 +15,24 @@ import {
   useTheme,
   TextField,
   Button,
+  Menu,
+  MenuItem,
+  Divider,
+  Paper,
+  MenuList,
 } from "@mui/material";
 
-function AdminLogin() {
-  const [id, setId] = useState(0);
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { EmailIcon } from "@mui/icons-material/Email";
+
+import Swal from "sweetalert2";
+
+import { useAuth } from "../../context/Context";
+
+const Login = () => {
+  const { setName } = useAuth();
+
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [respuesta, setRespuesta] = useState("");
   const [role, setRole] = useState("");
@@ -25,15 +40,108 @@ function AdminLogin() {
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
-    event.preventDefault();
-    var ans = await verifyUser(id, password, role);
-    var res = await ans.json();
-    console.log(res);
-    setRespuesta(res.message);
+    try {
+      event.preventDefault();
+      var ans = await verifyUser(id, password, role);
+      var res = await ans.json();
+      console.log(res);
+      setRespuesta(res.message);
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: "Los datos que ingresó no son correctos",
+        background: "rgb(176, 55, 55)",
+        color: "white",
+        timer: 2000,
+      });
+      setRespuesta(null);
+    }
   }
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [users, setUsers] = useState([]);
+
+  const initialState = {
+    id: 0,
+    lastName: "",
+    firstName: "",
+    birthDate: "",
+    password: "",
+    address: "",
+    phone: "",
+    role: "",
+    isActive: false,
+  };
+
+  const [user, setUser] = useState(initialState);
+
+  const listUsers = async () => {
+    try {
+      const res = await UserAPI.listUsers();
+      const data = await res.json();
+      setUsers(data.users);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    listUsers();
+  }, []);
+
+  const saveValues = () => {
+    console.log(user.firstName);
+    setMenuOpen(true);
+    setName(user.firstName+" "+user.lastName);
+    setAll();
+    handleClose();
+  };
+
+  const getAdmin = () => {
+    setUser(users.filter((user) => user.role === "Admin")[0]);
+  };
+
+  const getCliente = () => {
+    setUser(users.filter((user) => user.role === "Cliente")[0]);
+  };
+
+  const getOperador = () => {
+    setUser(users.filter((user) => user.role === "Operador")[0]);
+  };
+
+  const getGerente = () => {
+    setUser(users.filter((user) => user.role === "Gerente")[0]);
+  };
+
+  const setUsuario = () => {
+    console.log(id);
+    setUser(users.filter((user) => user.id === parseInt(id)));
+  };
+
+  const setAll = () => {
+    setId(user.id);
+    setPassword(user.password);
+    setRole(user.role);
+  };
+
+  const handleChange = (ev) => {
+    setPassword(ev.target.value);
+    setName(user[0].firstName);
+  };
 
   return (
     <Box sx={{ mt: "80px" }}>
@@ -54,23 +162,32 @@ function AdminLogin() {
               </div>
               <p>Por favor ingresa a tu cuenta</p>
               <div>
-                {respuesta && respuesta !== "Success" ? (
-                  <div className="alert alert-danger" role="alert">
-                    Los datos que ingresó no son correctos
-                  </div>
-                ) : respuesta === "Success" && role === "Cliente" ? (
-                  navigate(`/Cliente/`)
-                ) : respuesta === "Success" && role === "Operador" ? (
-                  navigate(`/Operador`)
-                ) : respuesta === "Success" && role === "Gerente" ? (
-                  navigate(`/Gerente`)
-                ) : respuesta === "Success" && role === "Admin" ? (
-                  navigate("/Dashboard")
-                ) : (
-                  <div></div>
-                )}
+                {useEffect(() => {
+                  if (respuesta && respuesta !== "Success") {
+                    Swal.fire({
+                      title: "Error",
+                      text: "Los datos que ingresó no son correctos",
+                      background: "rgb(176, 55, 55)",
+                      color: "white",
+                      timer: 2000,
+                    });
+                    setRespuesta(null);
+                  } else {
+                    if (respuesta === "Success" && role === "Cliente") {
+                      navigate(`/Cliente`);
+                    }
+                    if (respuesta === "Success" && role === "Operador") {
+                      navigate(`/Operador`);
+                    }
+                    if (respuesta === "Success" && role === "Gerente") {
+                      navigate(`/Gerente`);
+                    }
+                    if (respuesta === "Success" && role === "Admin") {
+                      navigate("/Dashboard");
+                    }
+                  }
+                }, [respuesta, role, navigate])}
               </div>
-
               <Grid
                 container
                 display="flex"
@@ -79,43 +196,38 @@ function AdminLogin() {
                 marginBottom={isMobile ? 3 : 1}
               >
                 <TextField
-                  label="ID"
-                  id="form1"
+                  placeholder="ID"
+                  value={isMenuOpen ? user.id : id}
                   size="small"
                   onChange={(event) => setId(event.target.value)}
-                  sx={{ border: "2px solid lightgray", borderRadius: "5px" }}
                 />
                 <TextField
-                  marginBottom={isMobile ? 3 : 1}
-                  label="Password"
+                  placeholder="Password"
                   id="form2"
-                  type="password"
+                  value={isMenuOpen ? user.password : password}
                   size="small"
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                  }}
-                  sx={{ border: "2px solid lightgray", borderRadius: "5px" }}
+                  onFocus={setUsuario}
+                  onChange={(event) => handleChange(event)}
                 />
               </Grid>
-
               <select
                 className="w-100 mb-2 select"
                 id="role"
                 onChange={(e) => setRole(e.target.value)}
               >
-                <option selected={true} disabled="disabled">
-                  {isMobile ? (
-                    <>Seleccione el rol</>
-                  ) : (
-                    <>Seleccione el rol a desempeñar</>
-                  )}
+                {/*isMobile ? (
+                      <>Seleccione el rol</>
+                    ) : (
+                      <>Seleccione el rol a desempeñar</>
+                    )*/}
+                <option value={isMenuOpen ? user.role : ""}>
+                  {isMenuOpen ? user.role : "Seleccione el rol a desempeñar"}
                 </option>
                 <option value="Cliente">Cliente</option>
                 <option value="Gerente">Gerente </option>
                 <option value="Operador">Operador</option>
                 <option value="Admin">Administrador</option>
               </select>
-
               <Grid
                 container
                 sx={{
@@ -144,12 +256,11 @@ function AdminLogin() {
               </Grid>
             </div>
           </Grid>
-
           {isMobile ? (
             <></>
           ) : (
             <Grid item md={6}>
-              <div className="d-flex flex-column  justify-content-center gradient-custom-2 h-100">
+              <div className="d-flex flex-column justify-content-center gradient-custom-1">
                 <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                   <Typography
                     variant="h5"
@@ -159,7 +270,7 @@ function AdminLogin() {
                   >
                     Somos más que sólo una compañía
                   </Typography>
-                  <Typography className="small mb-0" fontFamily="Montserrat">
+                  <Typography className="small" fontFamily="Montserrat">
                     Una empresa de energía eléctrica que desarrolla un sistema
                     para gestionar la información de sus clientes ya sean
                     corporativos o personas naturales, su consumo y la
@@ -171,8 +282,56 @@ function AdminLogin() {
           )}
         </Grid>
       </form>
+      <Grid container position="fixed" top="120px" left="10vh">
+        <Button
+          id="demo-customized-button"
+          aria-controls={open ? "demo-customized-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          variant="contained"
+          disableElevation
+          onClick={handleClick}
+          endIcon={<KeyboardArrowDownIcon />}
+        >
+          <Typography fontSize={12}>Ingreso<br/>rápido</Typography>
+        </Button>
+        <Menu
+          id="demo-customized-menu"
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          MenuListProps={{
+            "aria-labelledby": "demo-customized-button",
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        >
+          <MenuList>
+            <MenuItem onClick={getAdmin}>Admin</MenuItem>
+            <Divider />
+            <MenuItem onClick={getCliente}>Cliente</MenuItem>
+            <Divider />
+            <MenuItem onClick={getOperador}>Operador</MenuItem>
+            <Divider />
+            <MenuItem onClick={getGerente}>Gerente</MenuItem>
+            <Divider />
+            <MenuItem
+              sx={{ color: "green", fontWeight: 600 }}
+              onClick={saveValues}
+            >
+              Guardar
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Grid>
     </Box>
   );
-}
+};
 
-export default AdminLogin;
+export default Login;
