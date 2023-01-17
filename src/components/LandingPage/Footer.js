@@ -15,6 +15,8 @@ import {
   useMediaQuery,
   useTheme,
   Link,
+  Tooltip,
+  Paper,
 } from "@mui/material";
 
 import { makeStyles } from "@material-ui/core";
@@ -67,20 +69,14 @@ const Footer = () => {
                 className={isMobile ? classes.cardsMobile : classes.cards}
                 sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
-                <CardContent sx={{ textAlign: "center", position: "relative" }}>
-                  <Grid container>
-                    <Link href="https://www.facebook.com/" target="_blank">
-                      <FacebookIcon sx={{ fontSize: 36, color: "aliceblue" }} />
-                    </Link>
-                    <Link href="https://twitter.com/" target="_blank">
-                      <TwitterIcon sx={{ fontSize: 36, color: "aliceblue" }} />
-                    </Link>
-                    <Link href="https://www.instagram.com/" target="_blank">
-                      <InstagramIcon
-                        sx={{ fontSize: 36, color: "aliceblue" }}
-                      />
-                    </Link>
-                  </Grid>
+                <CardContent
+                  sx={{
+                    textAlign: "center",
+                    position: "relative",
+                    width: "500px",
+                  }}
+                >
+                  <SocialNetwork />
                 </CardContent>
               </Card>
             </Grid>
@@ -90,8 +86,26 @@ const Footer = () => {
                 className={isMobile ? classes.cardsMobile : classes.cards}
                 sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
-                <CardContent sx={{ textAlign: "center" }}>
-                  <img src={logo} alt="Logo" width="100px"></img>
+                <CardContent sx={{ display: "flex", justifyContent: "center" }}>
+                  <Paper
+                    variant="contained"
+                    sx={{
+                      width: "100px",
+                      height: "100px",
+                      backgroundColor: "rgba(255, 255, 255,0)",
+                      transition: "300ms",
+                      backgroundImage: `url(${logo})`,
+                      backgroundSize: "contain",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center center",
+                      "&:hover": {
+                        cursor: "pointer",
+                        width: "140px",
+                        height: "140px",
+                        transition: "300ms",
+                      },
+                    }}
+                  ></Paper>
                 </CardContent>
               </Card>
             </Grid>
@@ -225,3 +239,120 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
 }));
+
+const SocialNetwork = () => {
+  return (
+    <Grid container columnGap={3}>
+      <Tooltip
+        arrow
+        title="Facebook"
+        enterDelay={100}
+        leaveDelay={200}
+        placement="top"
+        PopperProps={{
+          sx: {
+            "& .MuiTooltip-tooltip": {
+              color: "aliceblue",
+              backgroundColor: "#3b5998",
+              fontFamily: "Montserrat",
+            },
+            "& .MuiTooltip-arrow": {
+              color: "#3b5998",
+            },
+          },
+        }}
+      >
+        <Link href="https://www.facebook.com/" target="_blank">
+          <FacebookIcon
+            sx={{
+              fontSize: 40,
+              color: "aliceblue",
+              "&:hover": {
+                color: "#3b5998",
+                transition: "200ms",
+              },
+            }}
+          />
+        </Link>
+      </Tooltip>
+
+      <Tooltip
+        arrow
+        title="Twitter"
+        enterDelay={100}
+        leaveDelay={200}
+        placement="top"
+        PopperProps={{
+          sx: {
+            "& .MuiTooltip-tooltip": {
+              color: "aliceblue",
+              backgroundColor: "#00acee",
+              fontFamily: "Montserrat",
+            },
+            "& .MuiTooltip-arrow": {
+              color: "#00acee",
+            },
+          },
+        }}
+      >
+        <Link href="https://twitter.com/" target="_blank">
+          <TwitterIcon
+            sx={{
+              fontSize: 40,
+              color: "aliceblue",
+              "&:hover": {
+                color: "#00acee",
+                transition: "200ms",
+              },
+            }}
+          />
+        </Link>
+      </Tooltip>
+
+      <Tooltip
+        arrow
+        title="Instagram"
+        enterDelay={100}
+        leaveDelay={200}
+        placement="top"
+        PopperProps={{
+          sx: {
+            "& .MuiTooltip-tooltip": {
+              color: "aliceblue",
+              backgroundImage:
+                "linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)",
+              fontFamily: "Montserrat",
+            },
+            "& .MuiTooltip-arrow": {
+              color: "#DF3A41",
+            },
+          },
+        }}
+      >
+        <Link href="https://www.instagram.com/" target="_blank">
+          <svg width={0} height={0}>
+            <radialGradient id="instagram-gradient" r="150%" cx="30%" cy="107%">
+              <stop stop-color="#fdf497" offset="0" />
+              <stop stop-color="#fdf497" offset="0.02" />
+              <stop stop-color="#fd5949" offset="0.45" />
+              <stop stop-color="#d6249f" offset="0.6" />
+              <stop stop-color="#285AEB" offset="0.9" />
+            </radialGradient>
+          </svg>
+          <InstagramIcon
+            fontSize="large"
+            sx={{
+              fontSize: 40,
+              color: "aliceblue",
+              "&:hover": {
+                fontSize: 40,
+                fill: "url(#instagram-gradient)",
+                transition: "200ms",
+              },
+            }}
+          />
+        </Link>
+      </Tooltip>
+    </Grid>
+  );
+};
