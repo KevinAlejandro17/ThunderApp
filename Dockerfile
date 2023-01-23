@@ -8,14 +8,12 @@ WORKDIR /app
 
 COPY .venv .
 
-RUN ls /app
-
 # activate virtualenv
-RUN . Scripts/activate
+RUN .venv/Scripts/activate
 
-COPY .venv/requirements.txt .
+COPY requirements.txt .
 
-RUN pip install --ignore-installed --no-deps --default-timeout=100 -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY . .
 
