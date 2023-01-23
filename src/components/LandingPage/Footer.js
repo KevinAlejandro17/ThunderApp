@@ -61,7 +61,14 @@ const Footer = () => {
           <Grid
             container
             spacing={isMobile ? 1 : 4}
-            sx={{ justifyContent: "center", alignItems: "top", paddingX: 2 }}
+            sx={{
+              justifyContent: "center",
+              alignItems: "top",
+              paddingX: 2,
+              "& .MuiTypography-root": {
+                fontFamily: "Montserrat",
+              },
+            }}
           >
             <Grid item xs={12} sm={4} md={3}>
               <Card
@@ -76,7 +83,7 @@ const Footer = () => {
                     width: "500px",
                   }}
                 >
-                  <SocialNetwork />
+                  <SocialNetwork isMobile={isMobile}/>
                 </CardContent>
               </Card>
             </Grid>
@@ -123,7 +130,9 @@ const Footer = () => {
                 sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
                 <CardContent>
-                  <h3>Products</h3>
+                  <Typography fontSize="26px" fontWeight={500} mb={0.5}>
+                    Products
+                  </Typography>
                   {productsRows.map((product) => (
                     <Typography key={product} sx={{ fontSize: 14, py: 0.2 }}>
                       {product}
@@ -140,7 +149,9 @@ const Footer = () => {
                 sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
                 <CardContent>
-                  <h3>For developers</h3>
+                  <Typography fontSize="26px" fontWeight={500} mb={0.5}>
+                    For developers
+                  </Typography>
                   {forDevRows.map((item) => (
                     <Typography key={item} sx={{ fontSize: 14, py: 0.2 }}>
                       {item}
@@ -157,7 +168,7 @@ const Footer = () => {
                 sx={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
               >
                 <CardContent>
-                  <h3>Support</h3>
+                <Typography fontSize="26px" fontWeight={500} mb={0.5}>Support</Typography>
                   {supportRows.map((item) => (
                     <Typography key={item} sx={{ fontSize: 14, py: 0.2 }}>
                       {item}
@@ -176,10 +187,10 @@ const Footer = () => {
                 }}
               >
                 <CardContent>
-                  <h3>Newsletter</h3>
+                <Typography fontSize="26px" fontWeight={500} mb={0.5}>Newsletter</Typography>
                   <Grid container display="row" paddingX="2px" spacing={1}>
                     <Grid item xs={8}>
-                      <TextField variant="standard" placeholder="Email" />
+                      <TextField variant="standard" placeholder="Email"/>
                     </Grid>
                     <Grid item>
                       <IconButton variant="filled">
@@ -205,7 +216,6 @@ const Footer = () => {
                   fontSize={isMobile ? "14px" : "16px"}
                   variant="body"
                   textAlign="center"
-                  fontFamily="montserrat"
                 >
                   Una App que ofrece el servicio de gestión de usuario con
                   gráficas y estadísticas que muestran el consumo de sus
@@ -241,8 +251,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SocialNetwork = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const sizeOfFont = 36;
+
   return (
-    <Grid container columnGap={3}>
+    <Grid container={isMobile ? false : true}>
       <Tooltip
         arrow
         title="Facebook"
@@ -265,7 +280,7 @@ const SocialNetwork = () => {
         <Link href="https://www.facebook.com/" target="_blank">
           <FacebookIcon
             sx={{
-              fontSize: 40,
+              fontSize: sizeOfFont,
               color: "aliceblue",
               "&:hover": {
                 color: "#3b5998",
@@ -282,6 +297,7 @@ const SocialNetwork = () => {
         enterDelay={100}
         leaveDelay={200}
         placement="top"
+        marginX={3.5}
         PopperProps={{
           sx: {
             "& .MuiTooltip-tooltip": {
@@ -298,7 +314,7 @@ const SocialNetwork = () => {
         <Link href="https://twitter.com/" target="_blank">
           <TwitterIcon
             sx={{
-              fontSize: 40,
+              fontSize: sizeOfFont,
               color: "aliceblue",
               "&:hover": {
                 color: "#00acee",
@@ -332,20 +348,19 @@ const SocialNetwork = () => {
         <Link href="https://www.instagram.com/" target="_blank">
           <svg width={0} height={0}>
             <radialGradient id="instagram-gradient" r="150%" cx="30%" cy="107%">
-              <stop stop-color="#fdf497" offset="0" />
-              <stop stop-color="#fdf497" offset="0.02" />
-              <stop stop-color="#fd5949" offset="0.45" />
-              <stop stop-color="#d6249f" offset="0.6" />
-              <stop stop-color="#285AEB" offset="0.9" />
+              <stop stopColor="#fdf497" offset="0" />
+              <stop stopColor="#fdf497" offset="0.02" />
+              <stop stopColor="#fd5949" offset="0.45" />
+              <stop stopColor="#d6249f" offset="0.6" />
+              <stop stopColor="#285AEB" offset="0.9" />
             </radialGradient>
           </svg>
           <InstagramIcon
             fontSize="large"
             sx={{
-              fontSize: 40,
+              fontSize: sizeOfFont,
               color: "aliceblue",
               "&:hover": {
-                fontSize: 40,
                 fill: "url(#instagram-gradient)",
                 transition: "200ms",
               },

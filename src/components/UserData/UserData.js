@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import React from "react";
 import * as UserAPI from "../UserList/UserAPI.js";
 
+import PageNotFound from "./../PageNotFound";
+
 const Form = () => {
   const initialState = {
     id: 0,
@@ -76,7 +78,7 @@ const Form = () => {
   });
 
   return (
-    <Box>
+    <Box sx={{mt: 15}}>
       <form onSubmit={handleSubmit}>
         <Grid
           container
@@ -114,7 +116,6 @@ const Form = () => {
               type="text"
               value={user.birthDate}
               onChange={handleInputChange}
-              
             />
           </Grid>
           <Grid item>
@@ -124,7 +125,6 @@ const Form = () => {
               type="text"
               value={user.address}
               onChange={handleInputChange}
-              
             />
           </Grid>
           <Grid item>
@@ -134,7 +134,6 @@ const Form = () => {
               type="text"
               value={user.phone}
               onChange={handleInputChange}
-              
             />
           </Grid>
           <Grid item>
@@ -145,7 +144,6 @@ const Form = () => {
               value={user.role}
               onChange={handleInputChange}
               disabled={true}
-              
             />
           </Grid>
           <Grid item>
@@ -161,7 +159,7 @@ const Form = () => {
               label={JSON.stringify(user.isActive)}
             />
           </Grid>
-          <Grid item sx={{mb:10}}>
+          <Grid item sx={{ mb: 10 }}>
             <Button variant="contained" onClick={handleSubmit}>
               Save
             </Button>

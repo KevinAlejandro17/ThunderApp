@@ -22,19 +22,14 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { useAuth } from "../../context/Context";
-
-
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from "@mui/icons-material/Info";
 import EmailIcon from "@mui/icons-material/Email";
 import LoginIcon from "@mui/icons-material/Login";
+import UserMenu from "./../Users/UserMenu";
 
-function Navbar() {
-
-  const { isNavbar } = useAuth();
-
+function Navbar({ loggedUser }) {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
@@ -87,8 +82,7 @@ function Navbar() {
       path === "/Dashboard" ||
       path === "/Operador" ||
       path === "/Gerente" ||
-      path === "/factura" ||
-      isNavbar !== true ? (
+      path === "/factura" ? (
         <></>
       ) : (
         <AppBar>
@@ -211,22 +205,11 @@ function Navbar() {
                     Contactanos
                   </Button>
                 </Grid>
-                <Grid item>
-                  <Button
-                    onClick={() => navigate("/Login")}
-                    sx={{
-                      color: "white",
-                      fontWeight: 550,
-                      fontFamily: "Montserrat",
-                      ":hover": {
-                        bgcolor: "lightblue",
-                        color: "white",
-                      },
-                    }}
-                  >
-                    Ingresar
-                  </Button>
-                </Grid>
+
+                <Box sx={{ pl: loggedUser ? 0 : 2 }}>
+                  <UserMenu />
+                </Box>
+
                 <Grid item>
                   <IconButton
                     onClick={() => navigate("/")}

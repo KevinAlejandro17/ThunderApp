@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   styled,
   useTheme,
@@ -26,9 +26,7 @@ import AssignmentLateOutlined from "@mui/icons-material/AssignmentLateOutlined";
 import ReceiptOutlined from "@mui/icons-material/ReceiptOutlined";
 import MonetizationOnOutlined from "@mui/icons-material/MonetizationOnOutlined";
 
-
-import { useAuth } from "../../../context/Context";
-import UserMenu from "../UserMenu";
+import UserMenu from "./UserMenu";
 
 const drawerWidth = 240;
 
@@ -77,10 +75,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-
-const Gerente = () => {
+const Operador = () => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -90,7 +87,9 @@ const Gerente = () => {
     setOpen(false);
   };
 
-  const { name } = useAuth();
+  const loggedInUser = window.localStorage.getItem("loggedInUser");
+  const userJson = JSON.parse(loggedInUser);
+  const name = userJson.firstName + " " + userJson.lastName;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -121,7 +120,7 @@ const Gerente = () => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Gerente
+              Operador
             </Typography>
           </Grid>
           <UserMenu />
@@ -180,7 +179,7 @@ const Gerente = () => {
       </Drawer>
 
       <Main open={open}>
-        <Grid sx={{display:"grid", placeItems:"center", height:"100vh"}}>
+        <Grid sx={{ display: "grid", placeItems: "center", height: "100vh" }}>
           <Typography
             variant="h4"
             textAlign={"justify"}
@@ -195,4 +194,4 @@ const Gerente = () => {
   );
 };
 
-export default Gerente;
+export default Operador;

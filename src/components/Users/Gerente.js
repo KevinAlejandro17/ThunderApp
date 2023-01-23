@@ -26,8 +26,7 @@ import AssignmentLateOutlined from "@mui/icons-material/AssignmentLateOutlined";
 import ReceiptOutlined from "@mui/icons-material/ReceiptOutlined";
 import MonetizationOnOutlined from "@mui/icons-material/MonetizationOnOutlined";
 
-import { useAuth } from "../../../context/Context";
-import UserMenu from "../UserMenu";
+import UserMenu from "./UserMenu";
 
 const drawerWidth = 240;
 
@@ -77,7 +76,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 
-const Operador = () => {
+const Gerente = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -89,7 +88,9 @@ const Operador = () => {
     setOpen(false);
   };
 
-  const { name } = useAuth();
+  const loggedInUser = window.localStorage.getItem("loggedInUser");
+  const userJson = JSON.parse(loggedInUser);
+  const name = userJson.firstName + " " + userJson.lastName;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -120,7 +121,7 @@ const Operador = () => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Operador
+              Gerente
             </Typography>
           </Grid>
           <UserMenu />
@@ -192,6 +193,6 @@ const Operador = () => {
       </Main>
     </Box>
   );
-}
+};
 
-export default Operador;
+export default Gerente;

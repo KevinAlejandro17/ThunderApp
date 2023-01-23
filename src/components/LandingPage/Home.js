@@ -6,10 +6,9 @@ import Footer from "./Footer";
 import Banner from "./Banner";
 
 import { useEffect } from "react";
-import "../../App.css";
 
 import { Box } from "@mui/material";
-import Contact2 from './Contact2';
+import Contact2 from './Contact';
 
 const Home = () => {
   useEffect(() => {
@@ -17,7 +16,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="backPath">
+    <div>
       <Box>
         <Banner />
         <Box sx={{ mt: 8 }}>
