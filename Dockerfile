@@ -1,5 +1,8 @@
 FROM python:3
 
+# activate virtualenv
+RUN . .venv/Scripts/activate
+
 ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /app
@@ -12,4 +15,4 @@ RUN pip install --ignore-installed --no-deps -r requirements.txt
 
 COPY . .
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["..venv/Scripts/python", "manage.py", "runserver", "0.0.0.0:8000"]
