@@ -9,9 +9,9 @@ WORKDIR /app
 COPY .venv .
 
 # activate virtualenv
-RUN . .venv/Scripts/activate
+RUN . .venv/Scripts/activate.bat
 
-COPY requirements.txt .
+COPY .venv/requirements.txt .
 
 RUN pip install -r requirements.txt
 
