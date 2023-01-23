@@ -1,7 +1,7 @@
 FROM python:3
 
 # activate virtualenv
-RUN . .venv/Scripts/activate
+RUN .venv/Scripts/activate
 
 ENV PYTHONUNBUFFERED 1
 
