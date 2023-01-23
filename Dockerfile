@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN pip install --ignore-installed --no-deps -r requirements.txt
 
 COPY . .
 
