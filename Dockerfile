@@ -15,7 +15,7 @@ RUN . Scripts/activate
 
 COPY .venv/requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN pip install --ignore-installed --no-deps --default-timeout=100 -r requirements.txt
 
 COPY . .
 
