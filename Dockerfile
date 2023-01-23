@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY .venv .
 
-RUN ls -la .venv
+RUN ls /app
 
 # activate virtualenv
 RUN . .venv/Scripts/activate.bat
