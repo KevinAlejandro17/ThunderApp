@@ -9,7 +9,7 @@ WORKDIR /app
 COPY .venv .
 
 # activate virtualenv
-RUN .venv/Scripts/activate
+RUN . Scripts/activate
 
 COPY requirements.txt .
 
