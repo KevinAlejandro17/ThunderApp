@@ -9,11 +9,11 @@ WORKDIR /app
 COPY .venv .
 
 # activate virtualenv
-RUN .venv/Scripts/activate
+RUN . .venv/Scripts/activate
 
 COPY requirements.txt .
 
-RUN pip install --ignore-installed --no-deps -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY . .
 
