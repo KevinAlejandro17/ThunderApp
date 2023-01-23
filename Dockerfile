@@ -11,7 +11,7 @@ COPY .venv .
 RUN ls /app
 
 # activate virtualenv
-RUN . .venv/Scripts/activate.bat
+RUN . Scripts/activate.bat
 
 COPY .venv/requirements.txt .
 
