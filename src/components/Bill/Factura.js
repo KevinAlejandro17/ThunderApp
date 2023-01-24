@@ -269,7 +269,7 @@ const Factura = () => {
   };
 
   return (
-    <IntlProvider>
+    <IntlProvider locale="en">
       <Box
         sx={{
           display: "flex",
