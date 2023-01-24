@@ -15,6 +15,7 @@ import {
   ListItemIcon,
   ListItemText,
   Grid,
+  useMediaQuery,
 } from "@mui/material";
 
 import MuiAppBar from "@mui/material/AppBar";
@@ -80,6 +81,8 @@ const Customer = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [viewStatus, setviewStatus] = useState(false);
   const [payment, setPayment] = useState(false);
   const [billView, setbillView] = useState(false);
@@ -113,6 +116,20 @@ const Customer = () => {
   const loggedInUser = window.localStorage.getItem("loggedInUser");
   const userJson = JSON.parse(loggedInUser);
   const name = userJson.firstName + " " + userJson.lastName;
+
+  const handleDrawerItem = ({ index }) => {
+    if (isMobile) {
+      handleDrawerClose();
+    }
+    
+    if (index === 0) {
+      handleViewStatus();
+    } else if (index === 1) {
+      handlePayment();
+    } else if (index === 2) {
+      handleBillView();
+    }
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -190,13 +207,7 @@ const Customer = () => {
               <ListItem
                 key={text}
                 disablePadding
-                onClick={
-                  index === 0
-                    ? handleViewStatus
-                    : index === 1
-                    ? handlePayment
-                    : handleBillView
-                }
+                onClick={() => handleDrawerItem({ index })}
               >
                 <ListItemButton>
                   <ListItemIcon>
@@ -223,12 +234,12 @@ const Customer = () => {
           ) : payment ? (
             <h1>VISTA PAGO</h1>
           ) : billView ? (
-            <Box sx={{mt: 3}}>
+            <Box sx={{ mt: 3 }}>
               <Factura />
             </Box>
           ) : (
             <Typography
-              variant="h4"
+              variant={isMobile ? "h6" : "h4"}
               textAlign={"justify"}
               fontWeight={600}
               mt="12px"
