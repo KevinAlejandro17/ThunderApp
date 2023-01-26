@@ -18,6 +18,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
+import { useNavigate } from "react-router-dom";
+
 import MuiAppBar from "@mui/material/AppBar";
 
 import MenuIcon from "@mui/icons-material/Menu";
@@ -29,13 +31,18 @@ import MonetizationOnOutlined from "@mui/icons-material/MonetizationOnOutlined";
 
 import UserMenu from "./UserMenu";
 import Factura from "../Bill/Factura";
+import Home from "@mui/icons-material/Home";
+
+import logo from ".././LandingPage/Images/logo3.png";
+
+import Download from "@mui/icons-material/Download";
 
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -46,7 +53,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginLeft: 0,
     }),
   })
 );
@@ -78,6 +84,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const Customer = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -121,7 +128,7 @@ const Customer = () => {
     if (isMobile) {
       handleDrawerClose();
     }
-    
+
     if (index === 0) {
       handleViewStatus();
     } else if (index === 1) {
@@ -132,7 +139,13 @@ const Customer = () => {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        backgroundColor: isMobile ? "gray" : "white",
+        height: isMobile ? "62em" : "100%",
+      }}
+    >
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -168,7 +181,12 @@ const Customer = () => {
               {userJson.role}
             </Typography>
           </Grid>
-          <UserMenu />
+          <Grid display="flex" flexDirection="row" columnGap={4}>
+            <UserMenu />
+            <IconButton onClick={() => navigate("/")}>
+              <Home sx={{ color: "white", width: "30px", height: "auto" }} />
+            </IconButton>
+          </Grid>
         </Toolbar>
       </AppBar>
 
@@ -201,6 +219,9 @@ const Customer = () => {
             border: "1px solid white",
           }}
         />
+        <Grid sx={{ py: 3, display: "grid", justifyContent: "center" }}>
+          <img src={logo} alt="logo" width="100px" height="auto" />
+        </Grid>
         <List>
           {["Consultar estado", "Pagar factura", "Ver factura"].map(
             (text, index) => (
@@ -230,11 +251,28 @@ const Customer = () => {
       <Main open={open}>
         <Grid sx={{ display: "grid", placeItems: "center", height: "100vh" }}>
           {viewStatus ? (
-            <h1>VISTA ESTADO</h1>
+            <Box>
+              <h1>VISTA ESTADO</h1>
+            </Box>
           ) : payment ? (
-            <h1>VISTA PAGO</h1>
+            <Box>
+              <h1>VISTA PAGO</h1>
+            </Box>
           ) : billView ? (
-            <Box sx={{ mt: 3 }}>
+            <Box sx={{ backgroundColor: "white", mt: 14 }}>
+              <IconButton
+                sx={{ position: "absolute", top: 62, right: 20 }}
+                onClick={() =>
+                  window.open(
+                    "/factura",
+                    "Download PDF",
+                    "height=500,width=900"
+                  )
+                }
+              >
+                <Download />
+              </IconButton>
+
               <Factura />
             </Box>
           ) : (
