@@ -42,16 +42,16 @@ const drawerWidth = 240;
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
-
-    transition: theme.transitions.create("margin", {
+    transition: theme.transitions.create("padding", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: 300
     }),
     marginLeft: `-${drawerWidth}px`,
     ...(open && {
-      transition: theme.transitions.create("margin", {
+      paddingLeft: `${drawerWidth}px`,
+      transition: theme.transitions.create("padding", {
         easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
+        duration: 300
       }),
     }),
   })
@@ -142,7 +142,7 @@ const Customer = () => {
     <Box
       sx={{
         display: "flex",
-        backgroundColor: isMobile ? "gray" : "white",
+        backgroundColor: isMobile && billView ? "gray" : "white",
         height: isMobile ? "62em" : "100%",
       }}
     >
@@ -259,8 +259,8 @@ const Customer = () => {
               <h1>VISTA PAGO</h1>
             </Box>
           ) : billView ? (
-            <Box sx={{ backgroundColor: "white", mt: 14 }}>
-              <IconButton
+            <Box sx={{ backgroundColor: "white", mt: isMobile ? 14 : 4 }}>
+              {isMobile ? (<IconButton
                 sx={{ position: "absolute", top: 62, right: 20 }}
                 onClick={() =>
                   window.open(
@@ -271,8 +271,7 @@ const Customer = () => {
                 }
               >
                 <Download />
-              </IconButton>
-
+              </IconButton>) : null}
               <Factura />
             </Box>
           ) : (
