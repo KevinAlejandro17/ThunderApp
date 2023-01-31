@@ -36,12 +36,12 @@ class UsersView(View):
     @method_decorator(csrf_exempt)
     def verifyUser(request):
         data = json.loads(request.body)
-        id = int(data["id"])
+        email = data["email"]
         if (id == 0):
             datos = {'message': 'User not found!'}
         else:
             user = list(Users.objects.filter(
-                id=id, password=data["password"], role=data["role"]).values())
+                email=email, password=data["password"], role=data["role"]).values())
             if (len(user) > 0):
                 datos = {'message': 'Success', 'user': user}
             else:
@@ -58,7 +58,7 @@ class UsersView(View):
             boolean = False
         try:
             Users.objects.create(id=jd['id'], lastName=jd['lastName'], firstName=jd['firstName'],
-                                 birthDate=jd['birthDate'], password=jd['password'], address=jd['address'], phone=jd['phone'], role=jd['role'], isActive=boolean)
+                                 birthDate=jd['birthDate'], password=jd['password'], email=jd['email'], address=jd['address'], phone=jd['phone'], role=jd['role'], isActive=boolean)
 
         except Exception as e:
             print("Falló la inserción")
@@ -70,6 +70,7 @@ class UsersView(View):
     def put(self, request, id):
         jdu = json.loads(request.body)
         jd = jdu['user']
+        print("----------AAAAAAAAAAAAAAA.....", jd)
         users = list(Users.objects.filter(id=id).values())
         if len(users) > 0:
             user = Users.objects.get(id=id)
@@ -77,6 +78,7 @@ class UsersView(View):
             user.lastName = jd['lastName']
             user.firstName = jd['firstName']
             user.birthDate = jd['birthDate']
+            user.email = jd['email']
             user.address = jd['address']
             user.phone = jd['phone']
             user.role = jd['role']
@@ -103,14 +105,15 @@ class BillsView(View):
         jd = json.loads(request.body)
         datos = {'message': 'Success'}
         try:
-            Bills.objects.create(billingDate=datetime.datetime.now() + datetime.timedelta(days=30),
-                                 dueDate=datetime.datetime.now() + datetime.timedelta(days=30) +
-                                 datetime.timedelta(days=10),
-                                 amount=0,
-                                 status="null",
-                                 payMethod="null",
-                                 userID=jd['id'],
-                                 isGenerated=False,)
+            if(jd['role'] == "Cliente"):
+                Bills.objects.create(billingDate=datetime.datetime.now() + datetime.timedelta(days=30),
+                                    dueDate=datetime.datetime.now() + datetime.timedelta(days=30) +
+                                    datetime.timedelta(days=10),
+                                    amount=0,
+                                    status="null",
+                                    payMethod="null",
+                                    userID=jd['id'],
+                                    isGenerated=False,)
         except Exception as e:
             print("Falló la inserción")
             datos = {'message': 'Fail'}
