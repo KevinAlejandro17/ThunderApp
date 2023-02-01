@@ -5,6 +5,7 @@ import {
   Box,
   FormControlLabel,
   Switch,
+  Typography,
 } from "@mui/material";
 
 import { useParams, useNavigate } from "react-router-dom";
@@ -12,13 +13,12 @@ import { useState, useEffect } from "react";
 import React from "react";
 import * as UserAPI from "../UserList/UserAPI.js";
 
-import PageNotFound from "./../PageNotFound";
-
-const Form = () => {
+const UserForm = ({ idUser, isMobile }) => {
   const initialState = {
     id: 0,
     lastName: "",
     firstName: "",
+    email: "",
     birthDate: "",
     address: "",
     phone: "",
@@ -28,14 +28,19 @@ const Form = () => {
 
   const navigate = useNavigate();
   const [user, setUser] = useState(initialState);
+  const [isLoading, setisLoading] = useState(false);
 
-  const params = useParams();
+  const loggedInUser = window.localStorage.getItem("loggedInUser");
+  const userJson = JSON.parse(loggedInUser);
 
   const handleSubmit = async () => {
-    console.log(user);
     try {
-      await UserAPI.updateUser(params.id, user);
-      setTimeout(navigate("/UserList"), 3000);
+      await UserAPI.updateUser(idUser, user);
+      if(idUser === JSON.stringify(userJson.id)){
+        console.log("User updated successfully")
+        window.localStorage.setItem("loggedInUser", JSON.stringify(user));
+      }
+      setTimeout(navigate("/Dashboard#users"), 2000);
     } catch (error) {
       console.log(error);
     }
@@ -49,124 +54,159 @@ const Form = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUser({
-      ...user,
-      [name]: value,
-    });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const loadUser = async (id) => {
-    const res = await fetch(`http://localhost:8000/api/users/${id}`);
-    const data = await res.json();
-    setUser({
-      id: data.user.id,
-      lastName: data.user.lastName,
-      firstName: data.user.firstName,
-      birthDate: data.user.birthDate,
-      address: data.user.address,
-      phone: data.user.phone,
-      role: data.user.role,
-      isActive: data.user.isActive,
-    });
+  const loadUser = async () => {
+    setisLoading(true);
+    try {
+      const res = await UserAPI.getUser(idUser);
+      const data = await res.json();
+      setUser(data.user);
+      setisLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    if (params.id) {
-      loadUser(params.id);
-    }
-  });
+    loadUser();
+  }, []);
 
   return (
-    <Box sx={{mt: 15}}>
-      <form onSubmit={handleSubmit}>
-        <Grid
-          container
-          alignItems="center"
-          justify="center"
-          direction="column"
-          spacing="12px"
-          sx={{ mt: 8 }}
+    <div>
+      {isLoading ? (
+        <h1>Cargando...</h1>
+      ) : (
+        <Box
+          component="form"
+          sx={{
+            display: isLoading ? "grid" : "flex",
+            flexDirection: "column",
+            rowGap: 3,
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            height: "100vh",
+            borderRadius: 5,
+            mb: 4,
+            backgroundColor: "rgba(119, 136, 153, 0.3)",
+          }}
         >
-          <Grid item>
-            <h1>{params.id}</h1>
-          </Grid>
-          <Grid item>
+          <Typography variant="h2" fontWeight="bold">
+            Editar usuario
+          </Typography>
+          <Grid container width="35%" justifyContent="center" rowGap={2}>
             <TextField
-              id="fname-input"
-              name="firstName"
+              fullWidth
+              label="ID"
+              name="id"
               type="text"
-              value={user.firstName}
-              onChange={handleInputChange}
+              value={idUser}
+              disabled
+              size={isMobile ? "small" : "medium"}
             />
-          </Grid>
-          <Grid item>
+            <Grid
+              container
+              display="flex"
+              justifyContent="space-between"
+              rowGap={isMobile ? 3 : 0}
+            >
+              <Grid item md={5.8}>
+                <TextField
+                  label="Nombre"
+                  name="firstName"
+                  type="text"
+                  value={user.firstName}
+                  onChange={handleInputChange}
+                  size={isMobile ? "small" : "medium"}
+                />
+              </Grid>
+              <Grid item md={5.8}>
+                <TextField
+                  id="lname-input"
+                  label="Apellido"
+                  name="lastName"
+                  type="text"
+                  value={user.lastName}
+                  onChange={handleInputChange}
+                  size={isMobile ? "small" : "medium"}
+                />
+              </Grid>
+            </Grid>
             <TextField
-              id="lname-input"
-              name="lastName"
+              fullWidth
+              id="email-input"
+              label="Email"
+              name="email"
               type="text"
-              value={user.lastName}
+              value={user.email}
               onChange={handleInputChange}
+              size={isMobile ? "small" : "medium"}
             />
-          </Grid>
-          <Grid item>
+            <Grid
+              container
+              display="flex"
+              justifyContent="space-between"
+              rowGap={isMobile ? 3 : 0}
+            >
+              <Grid item md={7}>
+                <TextField
+                  id="address-input"
+                  label="Address"
+                  name="address"
+                  type="text"
+                  value={user.address}
+                  onChange={handleInputChange}
+                  size={isMobile ? "small" : "medium"}
+                />
+              </Grid>
+              <Grid item md={5}>
+                <TextField
+                  id="phone-input"
+                  label="Phone Number"
+                  name="phone"
+                  type="text"
+                  value={user.phone}
+                  onChange={handleInputChange}
+                  size={isMobile ? "small" : "medium"}
+                />
+              </Grid>
+            </Grid>
             <TextField
-              id="bdate-input"
-              name="birthDate"
-              type="text"
-              value={user.birthDate}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              id="address-input"
-              name="address"
-              type="text"
-              value={user.address}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              id="phone-input"
-              name="phone"
-              type="text"
-              value={user.phone}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
+              fullWidth
               id="role-input"
+              label="Role"
               name="role"
               type="text"
               value={user.role}
               onChange={handleInputChange}
               disabled={true}
+              size={isMobile ? "small" : "medium"}
             />
+            <Grid textAlign="center">
+              <Typography variant="h6" fontWeight="bold">
+                Estado
+              </Typography>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={user.isActive}
+                    onChange={handleChange}
+                    name="isActive"
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                }
+                label={user.isActive ? "Activo" : "Inactivo"}
+              />
+            </Grid>
           </Grid>
-          <Grid item>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={user.isActive}
-                  onChange={handleChange}
-                  name="isActive"
-                  inputProps={{ "aria-label": "controlled" }}
-                />
-              }
-              label={JSON.stringify(user.isActive)}
-            />
-          </Grid>
-          <Grid item sx={{ mb: 10 }}>
-            <Button variant="contained" onClick={handleSubmit}>
-              Save
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
-    </Box>
+          <Button variant="contained" onClick={handleSubmit}>
+            Save
+          </Button>
+        </Box>
+      )}
+    </div>
   );
 };
-export default Form;
+export default UserForm;

@@ -1,337 +1,235 @@
-import React from "react";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  CssBaseline,
+  ThemeProvider,
+  styled,
+  Grid,
+  useTheme,
+  useMediaQuery,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Divider,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { tokens, ColorModeContext, useMode } from "../Theme";
-import { mockTransactions } from "../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../ComponentsDashboard/Header";
-import LineChart from "../ComponentsDashboard/LineChart";
-import GeographyChart from "../ComponentsDashboard/GeographyChart";
-import BarChart from "../ComponentsDashboard/BarChart";
-import StatBox from "../ComponentsDashboard/StatBox";
-import ProgressCircle from "../ComponentsDashboard/ProgressCircle";
+
 import Sidebar from "../Sidebar";
 import Topbar from "../Topbar";
-import { useState } from "react";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import Charts from "./Charts";
+import { useAuth } from "../../../../context/Context";
+import AssignmentLateOutlined from "@mui/icons-material/AssignmentLateOutlined";
+import MonetizationOnOutlined from "@mui/icons-material/MonetizationOnOutlined";
+import ReceiptOutlined from "@mui/icons-material/ReceiptOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import PersonAdd from "@mui/icons-material/PersonAdd";
 
+import { useNavigate, useParams } from "react-router-dom";
+
+import UserList from "./../../../UserList/UserList";
+import UserAdd from "../../../Register/Register";
+import UserForm from "../../../UserData/UserData";
+import Map from "../../../UserData/Map";
+
+const sidebarWidth = 240;
+
+const PageContent = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  flexGrow: 1,
+  transition: theme.transitions.create("padding", {
+    easing: theme.transitions.easing.easeIn,
+    duration: 300,
+  }),
+  ...(!useMediaQuery(theme.breakpoints.down("sm")) && { paddingLeft: `80px` }),
+  ...(open && {
+    paddingLeft: `${sidebarWidth}px`,
+    transition: theme.transitions.create("padding", {
+      easing: theme.transitions.easing.easeOut,
+      duration: 300,
+    }),
+  }),
+}));
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
+  const muiTheme = useTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"));
+
+  const loggedInUser = window.localStorage.getItem("loggedInUser");
+  const userJson = JSON.parse(loggedInUser);
+  const name = userJson.firstName + " " + userJson.lastName;
+
+  const { isSidebar } = useAuth();
 
   const colors = tokens(theme.palette.mode);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openMenu = Boolean(anchorEl);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const hashLoc = window.location.hash;
+
+  const handleDashboard = () => {
+    navigate("/Dashboard");
+    handleClose();
+  };
+
+  const handleUserList = () => {
+    navigate("/Dashboard#users");
+    handleClose();
+  };
+
+  const handleRegisterUser = () => {
+    navigate("/Dashboard#register");
+    handleClose();
+  };
+
+  const buttons = {
+    dashboard: {
+      icon: <HomeIcon fontSize="small" />,
+      name: "Dashboard",
+      onclick: handleDashboard,
+    },
+    userList: {
+      icon: <ReceiptIcon fontSize="small" />,
+      name: "UserList",
+      onclick: handleUserList,
+    },
+    registerUser: {
+      icon: <PersonAdd fontSize="small" />,
+      name: "Add user",
+      onclick: handleRegisterUser,
+    },
+  };
+
+  getUpdateID(hashLoc);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box display="flex" justifyContent="flex-end" position="relative">
-          <Box
-            marginLeft={"0px"}
-            marginRight={"30px"}
-            display="flex"
-            justifyContent="left"
-            position="absolute"
-            sx={{ left: 0, top: 0, bottom: 0 }}
+        <Box
+          display="flex"
+          justifyContent="left"
+          sx={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            zIndex: 1,
+          }}
+        >
+          {isMobile ? null : (
+            <Sidebar
+              handleDashboard={handleDashboard}
+              handleUserList={handleUserList}
+              handleRegister={handleRegisterUser}
+            />
+          )}
+        </Box>
+        <Box
+          sx={{
+            display: "grid",
+            justifyContent: "center",
+            position: "relative",
+            overflowX: "hidden",
+          }}
+        >
+          <PageContent
+            open={isSidebar}
+            sx={{ width: "100vw", height: "100vh" }}
           >
-            <Sidebar isSidebar={isSidebar} />
-          </Box>
-
-          <Box
-            backgroundColor="rgba(255,255,255,0)"
-            display="grid"
-            pb={4}
-            marginRight={10}
-          >
-            <Topbar setIsSidebar={setIsSidebar} />
-
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
+            <Grid
+              justifyContent="center"
+              height="100%"
+              backgroundColor="rgba(255,255,255,0)"
+              px={isMobile ? 6 : 14}
+              pb={6}
             >
-              <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
-              <Box>
-                <Button
-                  sx={{
-                    backgroundColor: colors.blueAccent[400],
-                    color: "white",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    padding: "10px 20px",
-                  }}
-                >
-                  <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-                  Download Reports
-                </Button>
-              </Box>
-            </Box>
-
-            {/* GRID & CHARTS */}
-            <Box
-              display="grid"
-              gridTemplateColumns="repeat(12, 1fr)"
-              gridAutoRows="140px"
-              gap="20px"
-            >
-              {/* ROW 1 */}
-              <Box
-                gridColumn="span 3"
-                backgroundColor={colors.primary[400]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <StatBox
-                  title="12,361"
-                  subtitle="Emails Sent"
-                  progress="0.75"
-                  increase="+14%"
-                  icon={
-                    <EmailIcon
-                      sx={{
-                        color: colors.greenAccent[600],
-                        fontSize: "26px",
-                      }}
-                    />
-                  }
-                />
-              </Box>
-              <Box
-                gridColumn="span 3"
-                backgroundColor={colors.primary[400]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <StatBox
-                  title="431,225"
-                  subtitle="Sales Obtained"
-                  progress="0.50"
-                  increase="+21%"
-                  icon={
-                    <PointOfSaleIcon
-                      sx={{
-                        color: colors.greenAccent[600],
-                        fontSize: "26px",
-                      }}
-                    />
-                  }
-                />
-              </Box>
-              <Box
-                gridColumn="span 3"
-                backgroundColor={colors.primary[400]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <StatBox
-                  title="32,441"
-                  subtitle="New Clients"
-                  progress="0.30"
-                  increase="+5%"
-                  icon={
-                    <PersonAddIcon
-                      sx={{
-                        color: colors.greenAccent[600],
-                        fontSize: "26px",
-                      }}
-                    />
-                  }
-                />
-              </Box>
-              <Box
-                gridColumn="span 3"
-                backgroundColor={colors.primary[400]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <StatBox
-                  title="1,325,134"
-                  subtitle="Traffic Received"
-                  progress="0.80"
-                  increase="+43%"
-                  icon={
-                    <TrafficIcon
-                      sx={{
-                        color: colors.greenAccent[600],
-                        fontSize: "26px",
-                      }}
-                    />
-                  }
-                />
-              </Box>
-
-              {/* ROW 2 */}
-              <Box
-                gridColumn="span 8"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
-              >
-                <Box
-                  mt="25px"
-                  p="0 30px"
-                  display="flex "
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Box>
-                    <Typography
-                      variant="h5"
-                      fontWeight="600"
-                      color={colors.grey[100]}
-                    >
-                      Revenue Generated
-                    </Typography>
-                    <Typography
-                      variant="h3"
-                      fontWeight="bold"
-                      color={colors.greenAccent[500]}
-                    >
-                      $59,342.32
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <IconButton>
-                      <DownloadOutlinedIcon
-                        sx={{
-                          fontSize: "26px",
-                          color: colors.greenAccent[500],
-                        }}
-                      />
-                    </IconButton>
-                  </Box>
-                </Box>
-                <Box height="250px" m="-20px 0 0 0">
-                  <LineChart isDashboard={true} />
-                </Box>
-              </Box>
-              <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
-                overflow="auto"
-              >
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  borderBottom={`4px solid ${colors.primary[500]}`}
-                  colors={colors.grey[100]}
-                  p="15px"
-                >
-                  <Typography
-                    color={colors.grey[100]}
-                    variant="h5"
-                    fontWeight="600"
+              {!isMobile ? null : (
+                <Box sx={{ position: "absolute", top: 15, left: 30 }}>
+                  <IconButton
+                    id="fade-button"
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleMenu}
+                    disableRipple
                   >
-                    Recent Transactions
-                  </Typography>
-                </Box>
-                {mockTransactions.map((transaction, i) => (
-                  <Box
-                    key={`${transaction.txId}-${i}`}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    borderBottom={`4px solid ${colors.primary[500]}`}
-                    p="15px"
-                  >
-                    <Box>
-                      <Typography
-                        color={colors.greenAccent[500]}
-                        variant="h5"
-                        fontWeight="600"
-                      >
-                        {transaction.txId}
-                      </Typography>
-                      <Typography color={colors.grey[100]}>
-                        {transaction.user}
-                      </Typography>
-                    </Box>
-                    <Box color={colors.grey[100]}>{transaction.date}</Box>
-                    <Box
-                      backgroundColor={colors.greenAccent[500]}
-                      p="5px 10px"
-                      borderRadius="4px"
-                    >
-                      ${transaction.cost}
-                    </Box>
-                  </Box>
-                ))}
-              </Box>
+                    <MenuIcon />
+                  </IconButton>
 
-              {/* ROW 3 */}
-              <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
-                p="30px"
-              >
-                <Typography variant="h5" fontWeight="600">
-                  Campaign
-                </Typography>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  mt="25px"
-                >
-                  <ProgressCircle size="125" />
-                  <Typography
-                    variant="h5"
-                    color={colors.greenAccent[500]}
-                    sx={{ mt: "15px" }}
+                  <Menu
+                    id="fade-menu"
+                    MenuListProps={{
+                      "aria-labelledby": "fade-button",
+                    }}
+                    PaperProps={{ backgroundColor: colors.primary[300] }}
+                    anchorEl={anchorEl}
+                    open={openMenu}
+                    onClose={handleClose}
+                    sx={{
+                      "& .MuiDivider-root": { backgroundColor: "white" },
+                    }}
                   >
-                    $48,352 revenue generated
-                  </Typography>
-                  <Typography>
-                    Includes extra misc expenditures and costs
-                  </Typography>
+                    {Object.values(buttons).map((button, index) => (
+                      <MenuItem value={index} onClick={button.onclick}>
+                        <ListItemIcon>{button.icon}</ListItemIcon>
+                        {button.name}
+                      </MenuItem>
+                    ))}
+                  </Menu>
                 </Box>
+              )}
+              <Topbar isMobile={isMobile} />
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Header title={"Bienvenido"} subtitle={name} />
               </Box>
               <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
+                sx={{
+                  height: "100%",
+                  width: "100%",
+                  display: "grid",
+                  placeItems: "center",
+                  my: 4,
+                }}
               >
-                <Typography
-                  variant="h5"
-                  fontWeight="600"
-                  sx={{ padding: "30px 30px 0 30px" }}
-                >
-                  Sales Quantity
-                </Typography>
-                <Box height="250px" mt="-20px">
-                  <BarChart isDashboard={true} />
-                </Box>
+                {hashLoc === "" ? (
+                  <Box sx={{ pb:10, position:"absolute", top: 250}}>
+                    <Charts />
+                  </Box>
+                ) : hashLoc === "#users" ? (
+                  <UserList />
+                ) : hashLoc === "#register" ? (
+                  <UserAdd />
+                ) : getUpdateID(hashLoc)[0] === "#users" ? (
+                  <UserForm
+                    idUser={getUpdateID(hashLoc)[1]}
+                    isMobile={isMobile}
+                  />
+                ) : getUpdateID(hashLoc)[0] === "#map" ? (
+                  <Map />
+                ) : null}
               </Box>
-              <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
-                padding="30px"
-              >
-                <Typography
-                  variant="h5"
-                  fontWeight="600"
-                  sx={{ marginBottom: "15px" }}
-                >
-                  Geography Based Traffic
-                </Typography>
-                <Box height="200px">
-                  <GeographyChart isDashboard={true} />
-                </Box>
-              </Box>
-            </Box>
-          </Box>
+            </Grid>
+          </PageContent>
         </Box>
       </ThemeProvider>
     </ColorModeContext.Provider>
@@ -339,3 +237,8 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+const getUpdateID = (path) => {
+  const id = path.split("/");
+  return id;
+};

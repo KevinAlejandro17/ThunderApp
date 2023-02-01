@@ -1,7 +1,17 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Avatar, Box, IconButton, Typography, useTheme } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  ListItemIcon,
+  Typography,
+  useTheme,
+  Menu as MuiMenu,
+  MenuItem as MuiMenuItem,
+  Divider,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "./Theme";
@@ -19,6 +29,10 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
+import { useAuth } from "../../../context/Context";
+import AssignmentLateOutlined from "@mui/icons-material/AssignmentLateOutlined";
+import MonetizationOnOutlined from "@mui/icons-material/MonetizationOnOutlined";
+import ReceiptOutlined from "@mui/icons-material/ReceiptOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -39,15 +53,21 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ handleDashboard, handleUserList, handleRegister }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const { setIsSidebar } = useAuth();
 
   const loggedInUser = window.localStorage.getItem("loggedInUser");
   const userJson = JSON.parse(loggedInUser);
   const name = userJson.firstName + " " + userJson.lastName;
+
+  const handleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+    setIsSidebar(isCollapsed);
+  };
 
   return (
     <Box
@@ -69,11 +89,11 @@ const Sidebar = () => {
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
+      <ProSidebar width={240} collapsed={isCollapsed}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={handleSidebar}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
@@ -87,7 +107,11 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.blueAccent} fontWeight="bold">
+                <Typography
+                  variant="h3"
+                  color={colors.blueAccent}
+                  fontWeight="bold"
+                >
                   Admin
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -119,53 +143,42 @@ const Sidebar = () => {
                   {name}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  ThunderApp Admin
+                  Thunder Admin
                 </Typography>
               </Box>
             </Box>
           )}
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Dashboard"
-              to="/Dashboard"
+          <Box paddingLeft={isCollapsed ? undefined : "4%"}>
+            <MenuItem
               icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              onClick={handleDashboard}
             >
-              Data
-            </Typography>
+              Dashboard
+            </MenuItem>
 
-            <Item
-              title="Manage users"
-              to="/UserList"
+            <Divider sx={{my:2, mx: 1, border:"1px solid", width: "80%"}} />
+
+            <MenuItem
               icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+              onClick={handleUserList}
+            >
+              Administrar usuarios
+            </MenuItem>
 
-            <Item
-              title="Add new user"
-              to="/Register"
+            <MenuItem
               icon={<PersonAddAltIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Contacts Information"
-              to="/contacts"
+              onClick={handleRegister}
+            >
+              Añadir usuario
+            </MenuItem>
+            <MenuItem
               icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            >
+              Contactos
+            </MenuItem>
 
-            <Typography
+            {/*<Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
@@ -228,7 +241,7 @@ const Sidebar = () => {
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            />*/}
           </Box>
         </Menu>
       </ProSidebar>

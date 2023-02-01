@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Login.css";
 import * as UserAPI from "../UserList/UserAPI";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import logo from "../LandingPage/Images/logo2.png";
 
 import { verifyUser } from "../UserList/UserAPI";
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+
 import {
   Box,
   Grid,
@@ -15,26 +17,18 @@ import {
   useTheme,
   TextField,
   Button,
-  Menu,
-  MenuItem,
   Divider,
-  Paper,
-  MenuList,
 } from "@mui/material";
-
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { EmailIcon } from "@mui/icons-material/Email";
 
 import Swal from "sweetalert2";
 
 import * as FacturaAPI from "../Bill/FacturaAPI";
-import { useAuth } from "../../context/Context";
 
 const Login = () => {
-  const { setName } = useAuth();
+  const [captchaValido, cambiarCaptchaValido] = useState(null);
   const [bill, setBill] = useState();
 
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [respuesta, setRespuesta] = useState("");
@@ -43,7 +37,6 @@ const Login = () => {
     try {
       const res = await FacturaAPI.getBill(userID);
       const data = await res.json();
-      console.log("YEAHH", data.bill)
       setBill(data.bill);
     } catch (error) {
       console.log(error);
@@ -52,18 +45,39 @@ const Login = () => {
 
   const handleRole = ({ target }) => {
     setRole(target.value);
-    const usuario = (users.filter(user => user.id === parseInt(id)))[0];
-    console.log(usuario);
+    const usuario = users.filter((user) => user.email === email)[0];
     setUser(usuario);
     getBill(usuario.id);
   };
 
   const navigate = useNavigate();
 
+  const captcha = React.createRef(null);
+
+  const handleCaptcha = () => {
+    if (captcha.current.getValue()) {
+      cambiarCaptchaValido(true);
+    } else {
+      cambiarCaptchaValido(false);
+    }
+  };
+
   async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (!captchaValido) {
+      Swal.fire({
+        title: "Error",
+        text: "Debes verificar que no eres un robot",
+        background: "rgb(176, 55, 55)",
+        color: "white",
+        timer: 2000,
+      });
+      return;
+    }
+
     try {
-      event.preventDefault();
-      var ans = await verifyUser(id, password, role);
+      var ans = await verifyUser(email, password, role);
       var res = await ans.json();
       setRespuesta(res.message);
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
@@ -83,18 +97,6 @@ const Login = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const [isMenuOpen, setMenuOpen] = useState(false);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const [users, setUsers] = useState([]);
 
   const initialState = {
@@ -103,6 +105,7 @@ const Login = () => {
     firstName: "",
     birthDate: "",
     password: "",
+    email: "",
     address: "",
     phone: "",
     role: "",
@@ -125,50 +128,18 @@ const Login = () => {
     listUsers();
   }, []);
 
-  const saveValues = () => {
-    console.log(user.firstName);
-    setMenuOpen(true);
-    setName(user.firstName + " " + user.lastName);
-    setAll();
-    handleClose();
-  };
-
-  const getAdmin = () => {
-    setUser(users.filter((user) => user.role === "Admin")[0]);
-  };
-
-  const getCliente = () => {
-    getBill(users.filter((user) => user.role === "Cliente")[0].id);
-    setUser(users.filter((user) => user.role === "Cliente")[0]);
-  };
-
-  const getOperador = () => {
-    setUser(users.filter((user) => user.role === "Operador")[0]);
-  };
-
-  const getGerente = () => {
-    setUser(users.filter((user) => user.role === "Gerente")[0]);
-  };
-
   const setUsuario = async () => {
     await getBill(user.id);
-    setUser(users.filter((user) => user.id === parseInt(id)));
-  };
-
-  const setAll = () => {
-    setId(user.id);
-    setPassword(user.password);
-    setRole(user.role);
+    setUser(users.filter((user) => user.email === email));
   };
 
   const handleChange = (ev) => {
     setPassword(ev.target.value);
-    setName(user[0].firstName);
   };
 
   return (
     <Box sx={{ mt: "80px" }}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
         <Grid container>
           <Grid item md={6} sx={{ px: 12 }}>
             <div className="d-flex flex-column ms-3">
@@ -219,15 +190,16 @@ const Login = () => {
                 marginBottom={isMobile ? 3 : 1}
               >
                 <TextField
-                  placeholder="ID"
-                  value={isMenuOpen ? user.id : id}
+                  placeholder="Email Address"
+                  value={email}
                   size="small"
-                  onChange={(event) => setId(event.target.value)}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
-                <TextField
+                <TextField 
                   placeholder="Password"
                   id="form2"
-                  value={isMenuOpen ? user.password : password}
+                  type="Password"
+                  value={password}
                   size="small"
                   onFocus={setUsuario}
                   onChange={(event) => handleChange(event)}
@@ -243,8 +215,10 @@ const Login = () => {
                     ) : (
                       <>Seleccione el rol a desempeñar</>
                     )*/}
-                <option value={isMenuOpen ? user.role : ""}>
-                  {isMenuOpen ? user.role : "Seleccione el rol a desempeñar"}
+                <option value={""}>
+                  {isMobile
+                    ? "Seleccione el rol"
+                    : "Seleccione el rol a desempeñar"}
                 </option>
                 <option value="Cliente">Cliente</option>
                 <option value="Gerente">Gerente </option>
@@ -261,6 +235,12 @@ const Login = () => {
                   justifyContent: "center",
                 }}
               >
+                <ReCAPTCHA
+                  ref={captcha}
+                  sitekey="6LcJ2UAkAAAAAGA8oKYdI-U3HhIp6OGpjgghpgUk"
+                  onChange={handleCaptcha}
+                />
+
                 <Grid item xs={12}>
                   <Button
                     className="gradient-custom-2"
@@ -305,58 +285,6 @@ const Login = () => {
           )}
         </Grid>
       </form>
-      <Grid container position="fixed" top="120px" left="10vh">
-        <Button
-          id="demo-customized-button"
-          aria-controls={open ? "demo-customized-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          variant="contained"
-          disableElevation
-          onClick={handleClick}
-          endIcon={<KeyboardArrowDownIcon />}
-        >
-          <Typography fontSize={12}>
-            Ingreso
-            <br />
-            rápido
-          </Typography>
-        </Button>
-        <Menu
-          id="demo-customized-menu"
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          MenuListProps={{
-            "aria-labelledby": "demo-customized-button",
-          }}
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-        >
-          <MenuList>
-            <MenuItem onClick={getAdmin}>Admin</MenuItem>
-            <Divider />
-            <MenuItem onClick={getCliente}>Cliente</MenuItem>
-            <Divider />
-            <MenuItem onClick={getOperador}>Operador</MenuItem>
-            <Divider />
-            <MenuItem onClick={getGerente}>Gerente</MenuItem>
-            <Divider />
-            <MenuItem
-              sx={{ color: "green", fontWeight: 600 }}
-              onClick={saveValues}
-            >
-              Guardar
-            </MenuItem>
-          </MenuList>
-        </Menu>
-      </Grid>
     </Box>
   );
 };

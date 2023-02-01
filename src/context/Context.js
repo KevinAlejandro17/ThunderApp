@@ -11,10 +11,22 @@ export const useAuth = () => {
 const ContextProvider = ({ children }) => {
   const [name, setName] = useState("Nombre Usuario");
   const [isNavbar, setNavbar] = useState(true);
-  const [download, setdownload] = useState(false);
+  const [isSidebar, setIsSidebar] = useState(false);
+  const [hideList, sethideList] = useState(false);
 
   return (
-    <authContext.Provider value={{ name, setName, isNavbar, setNavbar, download, setdownload }}>
+    <authContext.Provider
+      value={{
+        name,
+        setName,
+        isNavbar,
+        setNavbar,
+        isSidebar,
+        setIsSidebar,
+        hideList,
+        sethideList,
+      }}
+    >
       {children}
     </authContext.Provider>
   );

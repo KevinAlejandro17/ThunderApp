@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import * as UserAPI from "./UserAPI";
 import "./UserList.css";
@@ -16,14 +16,20 @@ import {
   TableRow,
   TableBody,
   TableCell,
-  Paper,
-  Button,
   Grid,
   TableSortLabel,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
+
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import LocationOn from "@mui/icons-material/LocationOn";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
+  const [sortUp, setsortUp] = useState(true);
 
   const navigate = useNavigate();
 
@@ -43,19 +49,42 @@ const UserList = () => {
     });
   };
 
-  const listUsers = async () => {
+  function compare_id(a, b) {
+    if (a.id < b.id) {
+      if (sortUp) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+    if (a.id > b.id) {
+      if (sortUp) {
+        return 1;
+      } else {
+        return -1;
+      }
+    }
+    return 0;
+  }
+
+  const listUsers = async (sortBy) => {
+    setisLoading(true);
     try {
       const res = await UserAPI.listUsers();
       const data = await res.json();
-      setUsers(data.users);
+      const ls = data.users;
+      ls.sort(compare_id);
+      setUsers(ls);
+      setisLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    listUsers();
-  }, []);
+  useMemo(() => {
+    listUsers(sortUp);
+    // eslint-disable-next-line
+  }, [sortUp]);
 
   // eslint-disable-next-line
   const handleDelete = async (userId) => {
@@ -63,145 +92,168 @@ const UserList = () => {
     listUsers();
   };
 
+  const handleMap = (id) => {
+    const user = users.filter((user) => user.id === id)[0];
+    window.localStorage.setItem("userAddress", JSON.stringify(user.address));
+    navigate(`/Dashboard#map/${id}`);
+  };
+
   return (
-    <Box className="User-list">
-      <Box
-        component={Paper}
-        sx={{ background: "aliceblue", borderRadius: 5, mt: 3, mb: 3 }}
-      >
-        <Grid container sx={{ mb: 3, mt: 3, ml: 3, alignItems: "center" }}>
-          <img src={logo} alt="logo" height={90} width={90}></img>
-          <Grid item sx={{ ml: 4 }}>
-            <h1 style={{ color: "#124265" }}>
-              <strong>Users List</strong>
-            </h1>
+    <Box>
+      {isLoading ? (
+        <h2>Cargando...</h2>
+      ) : (
+        <Box
+          sx={{
+            borderRadius: 5,
+            mb: 3,
+            p: 3,
+            backgroundColor: "rgba(119, 136, 153, 0.3)",
+          }}
+        >
+          <Grid container sx={{ mb: 3, alignItems: "center" }}>
+            <Grid item>
+              <h2>
+                <strong>Lista de usuarios</strong>
+              </h2>
+            </Grid>
           </Grid>
-        </Grid>
-        <TableContainer>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">
-                  <TableSortLabel>
-                    <strong>User ID</strong>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="center">
-                  <strong>First Name</strong>
-                </TableCell>
-                <TableCell align="center">
-                  <strong>Last Name</strong>
-                </TableCell>
-                <TableCell align="center">
-                  <strong>
-                    Date of Birth
-                    <br />
-                    (YYYY-MM-DD)
-                  </strong>
-                </TableCell>
-                <TableCell align="center">
-                  <strong>Address</strong>
-                </TableCell>
-                <TableCell align="center">
-                  <strong>Phone</strong>
-                </TableCell>
-                <TableCell align="center">
-                  <strong>Role</strong>
-                </TableCell>
-                <TableCell align="center">
-                  <strong>Is Active</strong>
-                </TableCell>
-                <TableCell align="center">
-                  <strong>Change State</strong>
-                </TableCell>
-                <TableCell />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((user) => (
-                <TableRow
-                  key={user.id}
-                  sx={{
-                    "&:last-child td, &:last-child th": {
-                      border: 0,
-                    },
-                  }}
-                >
-                  <TableCell align="center" component="th" scope="row">
-                    {user.id}
-                  </TableCell>
-                  <TableCell align="center">{user.firstName}</TableCell>
-                  <TableCell align="center">{user.lastName}</TableCell>
-                  <TableCell align="center">{user.birthDate}</TableCell>
-                  <TableCell align="center">{user.address}</TableCell>
-                  <TableCell align="center">{user.phone}</TableCell>
-                  <TableCell align="center">{user.role}</TableCell>
-                  <TableCell align="center">
-                    {JSON.stringify(user.isActive)}
-                  </TableCell>
-                  <TableCell component="td" align="center">
-                    {user.isActive === true ? (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        sx={{
-                          ":hover": {
-                            bgcolor: "lightblue",
-                            color: "white",
-                          },
-                        }}
-                        onClick={() => navigate(`/update/${user.id}`)}
-                      >
-                        Deactivate
-                      </Button>
+          <TableContainer>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow sx={{ ".MuiTableCell-root": { fontSize: 14 } }}>
+                  {[
+                    "ID",
+                    "Nombre",
+                    "Apellido",
+                    "Email",
+                    "Dirección",
+                    "Teléfono",
+                    "Rol",
+                    "Estado",
+                    "",
+                  ].map((name) =>
+                    name === "ID" ? (
+                      <TableCell key={name}>
+                        <TableSortLabel
+                          active={true}
+                          direction={sortUp ? "asc" : "desc"}
+                          onClick={() => setsortUp(!sortUp)}
+                        >
+                          <strong>{name}</strong>
+                        </TableSortLabel>
+                      </TableCell>
                     ) : (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        sx={{
-                          ":hover": {
-                            bgcolor: "lightblue",
-                            color: "white",
-                          },
-                        }}
-                        onClick={() => navigate(`/update/${user.id}`)}
-                      >
-                        Activate
-                      </Button>
-                    )}
-                  </TableCell>
-                  <TableCell component="td" align="center">
-                    <Button
-                      variant="contained"
-                      size="small"
-                      sx={{
-                        color: "white",
-                        backgroundColor: "#C93456",
-                        ":hover": {
-                          bgcolor: "pink",
-                          color: "white",
-                        },
-                      }}
-                      onClick={() => deleteConfirmation(user.id)}
-                    >
-                      DELETE
-                    </Button>
-                  </TableCell>
+                      <TableCell align="center" key={name}>
+                        <strong>{name}</strong>
+                      </TableCell>
+                    )
+                  )}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Grid container justifyContent={"center"}>
-          <Button
-            variant="contained"
-            sx={{ mt: 2.5, mb: 2.5 }}
-            onClick={() => navigate("/Dashboard")}
-          >
-            Go back
-          </Button>
-        </Grid>
-      </Box>
+              </TableHead>
+              <TableBody>
+                {users.map((user) => (
+                  <TableRow
+                    key={user.id}
+                    sx={{
+                      "&:last-child td, &:last-child th": {
+                        border: 0,
+                      },
+                      ".MuiTableCell-root": {
+                        fontSize: 13,
+                        color: user.isActive === false ? "gray" : undefined,
+                      },
+                    }}
+                  >
+                    <TableCell align="center" component="th" scope="row">
+                      {user.id}
+                    </TableCell>
+                    <TableCell align="center">{user.firstName}</TableCell>
+                    <TableCell align="center">{user.lastName}</TableCell>
+                    <TableCell align="center">{user.email}</TableCell>
+                    <TableCell align="center">{user.address}</TableCell>
+                    <TableCell align="center">{user.phone}</TableCell>
+                    <TableCell align="center">{user.role}</TableCell>
+                    <TableCell align="center">
+                      {user.isActive === true ? <>Activo</> : <>Inactivo</>}
+                    </TableCell>
+                    <TableCell component="td" align="left">
+                      {user.role === "Admin" ? (
+                        <Tooltip title="Editar" placement="top">
+                          <IconButton
+                            disableRipple
+                            size="small"
+                            sx={{
+                              ":hover": {
+                                color: "#2E5894",
+                              },
+                            }}
+                            onClick={() =>
+                              navigate(`/Dashboard#users/${user.id}`)
+                            }
+                          >
+                            <ModeEditIcon />
+                          </IconButton>
+                        </Tooltip>
+                      ) : (
+                        <Grid>
+                          <Tooltip title="Editar" placement="top">
+                            <IconButton
+                              disableRipple
+                              size="small"
+                              sx={{
+                                ":hover": {
+                                  color: "#2E5894",
+                                },
+                              }}
+                              onClick={() =>
+                                navigate(`/Dashboard#users/${user.id}`)
+                              }
+                            >
+                              <ModeEditIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Eliminar" placement="top">
+                            <IconButton
+                              disableRipple
+                              size="small"
+                              sx={{
+                                px: 1.5,
+                                ":hover": {
+                                  color: "#E30022",
+                                },
+                              }}
+                              onClick={() => deleteConfirmation(user.id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Tooltip>
+                          {user.isActive === false ? null : (
+                            <Tooltip title="Ver en el mapa" placement="top">
+                              <IconButton
+                                disableRipple
+                                size="small"
+                                sx={{
+                                  ":hover": {
+                                    color: "#008000",
+                                  },
+                                }}
+                                onClick={() => handleMap(user.id)}
+                              >
+                                <LocationOn />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                        </Grid>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      )}
     </Box>
   );
 };

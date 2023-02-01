@@ -8,14 +8,16 @@ import Contact from "./components/LandingPage/Contact";
 import Navbar from "./components/LandingPage/Navbar";
 
 import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
 import Form from "./components/UserData/UserData";
+import Map from "./components/UserData/Map";
 import UserList from "./components/UserList/UserList";
 import Dashboard from "./components/Users/Admin/Dashboard/Dashboard";
 
 import Customer from "./components/Users/Customer";
 import Operator from "./components/Users/Operator";
 import Gerente from "./components/Users/Gerente";
+import OperatorList from "./components/Users/Operator/OperatorList";
+import Operatorpago from "./components/Users/Operator/Operatorpago";
 
 import ContextProvider from "./context/Context";
 import Factura from "./components/Bill/Factura";
@@ -134,19 +136,28 @@ const App = () => {
                 </OptionalComp>
               }
             />
-            <Route
-              path="/Register"
-              element={
-                <OptionalComp>
-                  <Register />
-                </OptionalComp>
-              }
-            />
+        
             <Route
               path="/UserList"
               element={
                 <OptionalComp>
                   <UserList />
+                </OptionalComp>
+              }
+            />
+            <Route
+              path="/OperatorList"
+              element={
+                <OptionalComp>
+                  <OperatorList />
+                </OptionalComp>
+              }
+            />
+            <Route
+              path="/Operatorpago"
+              element={
+                <OptionalComp>
+                  <Operatorpago />
                 </OptionalComp>
               }
             />
@@ -158,8 +169,10 @@ const App = () => {
                 </OptionalComp>
               }
             />
+
             <Route path="/About" element={<About />} />
             <Route path="/Contact" element={<Contact />} />
+
             <Route
               path="/Gerente"
               element={
