@@ -70,7 +70,6 @@ class UsersView(View):
     def put(self, request, id):
         jdu = json.loads(request.body)
         jd = jdu['user']
-        print("----------AAAAAAAAAAAAAAA.....", jd)
         users = list(Users.objects.filter(id=id).values())
         if len(users) > 0:
             user = Users.objects.get(id=id)
@@ -101,19 +100,52 @@ class UsersView(View):
 
 class BillsView(View):
 
+    @method_decorator(csrf_exempt)
+    def payBill(request):
+        data = json.loads(request.body)
+        id = data["id"]
+        if (id == 0):
+            datos = {'message': 'Bill not found!'}
+        else:
+            print("HE ENTRAU AQUI QUE PEDAZO DE MAKINA")
+            datos = (list(Bills.objects.filter(userID=id).values('isPaid')))[
+                0]['isPaid']
+            print(datos)
+            if (datos == False):
+                Bills.objects.filter(userID=id).update(isPaid=True)
+                Bills.objects.filter(userID=id).update(status="paid")
+                datos = {'message': 'Bill has been payed!'}
+            else:
+                datos = {'message': 'Bill not found'}
+        return JsonResponse(datos)
+
+
+    @method_decorator(csrf_exempt)
+    def alterDate(request):
+        data = json.loads(request.body)
+        id = data["id"]
+        date = data["date"]
+        print("Los datos de entrada son:", data)
+        if (id == 0):
+            datos = {'message': 'Bill not found!'}
+        else:
+            Bills.objects.filter(userID=id).update(billingDate=date)
+            datos = {'message': 'Date change successful'}
+        return JsonResponse(datos)
+
     def post(self, request):
         jd = json.loads(request.body)
         datos = {'message': 'Success'}
         try:
-            if(jd['role'] == "Cliente"):
+            if (jd['role'] == "Cliente"):
                 Bills.objects.create(billingDate=datetime.datetime.now() + datetime.timedelta(days=30),
-                                    dueDate=datetime.datetime.now() + datetime.timedelta(days=30) +
-                                    datetime.timedelta(days=10),
-                                    amount=0,
-                                    status="null",
-                                    payMethod="null",
-                                    userID=jd['id'],
-                                    isGenerated=False,)
+                                     dueDate=datetime.datetime.now() + datetime.timedelta(days=30) +
+                                     datetime.timedelta(days=10),
+                                     amount=0,
+                                     status="null",
+                                     payMethod="null",
+                                     userID=jd['id'],
+                                     isGenerated=False,)
         except Exception as e:
             print("Falló la inserción")
             datos = {'message': 'Fail'}
@@ -143,6 +175,7 @@ class BillsView(View):
                     energyConsumption = random.randrange(100, 200)
                     amountCalc = 500*energyConsumption
                     Bills.objects.filter(userID=id).update(amount=amountCalc)
+                    billData = {'message': 'Success', 'bill': bill}
 
                 elif (dueDate <= fechaActual.date()):
                     Bills.objects.filter(userID=id).update(status='mora')
